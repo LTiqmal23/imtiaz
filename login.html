@@ -21,16 +21,14 @@
                     <p>Hey, Enter your details to sign in to your account</p>
                 </div>
                 <div class="image-select">
-                    <div class="imgS">
+                    <div class="imgS" id="staff">
                         <img src="staff.png">
                         <p>Staff</p>
                     </div>
-                    <div class="imgS">
+                    <div class="imgS" id="student">
                         <img src="student.png">
                         <p>Student</p>
-                        
                     </div>
-
                 </div>
 
                 <div class="form-floating mb-3">
@@ -49,6 +47,15 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.imgS').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.imgS').forEach(el => el.classList.remove('selected'));
+                item.classList.add('selected');
+            });
+        });
+    </script>
 </body>
 
 </html>
