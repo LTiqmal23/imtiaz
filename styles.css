@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --background-color: #EAEEF3;
+    --pop-color: #fff;
+    --active-font-color: #B03060;
+    --softer-color: #c4436e;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: var(--background-color);
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: var(--pop-color);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo h4 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--active-font-color);
+}
+
+.profile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    margin-top: -40px;
+    background-color: var(--background-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.profile:hover {
+    transform: scale(1.05);
+}
+
+.profile img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid var(--active-font-color);
+}
+
+.profile h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 5px 0;
+}
+
+.profile p {
+    font-size: 14px;
+    color: #666;
+}
+
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar ul li {
+    width: 100%;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    width: 80%;
+    margin: 5px auto;
+    border-radius: 5px;
+    color: #666;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: var(--active-font-color);
+    color: #fff;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+.content h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.progress-bar{
+    background-color: #fff;
+}
+
+.progress{
+    background-color: rgba(0, 0, 0, 0.2)
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--softer-color)           ;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.3s;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table tbody td {
+    font-size: 14px;
+    color: #666;
+    padding: 10px 20px;
+
+}
+
+.btn-primary {
+    background-color:var(--active-font-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    opacity: 90%;
+    background-color: var(--active-font-color);
+    border: none;
+}
+
+.page-item.active .page-link {
+    background-color: var(--softer-color);
+    border-color: var(--active-font-color);
+}
+
+.page-link {
+    color: var(--active-font-color);
+}
+
+.page-link:hover {
+    color: #fff;
+    background-color: var(--softer-color);
+    border-color: var(--active-font-color);
+}
+
+.table i{
+    color: #666;
+}
+
+.table i:hover{
+    color: var(--active-font-color);
+}
