@@ -46,7 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         // Principal found, redirect to principal home page
-        header("Location: principalHome.php");
+        $row = $result->fetch_assoc();
+        $_SESSION['principalID'] = $row['principalID'];
+        $_SESSION['principalName'] = $row['principalName'];
+        header("Location: ../PrincipalDashboard.php");
         exit();
     }
 
