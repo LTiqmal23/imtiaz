@@ -4,6 +4,6 @@ $_SESSION = array();
 session_destroy();
 echo "<script>
     alert('You have been successfully logged out.');
-    location.href='MainHomepage.php';
+    location.href='MainLogin.html';
 </script>";
 exit();

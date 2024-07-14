@@ -1,6 +1,27 @@
 <?php
-
 include 'StaffHeader.php';
+include 'process/dashboard_automation.php';
+// Check if the connection is set and not null
+if (!isset($conn) || $conn === null) {
+    die("Database connection not established.");
+}
+
+// Fetch male and female student counts based on studIC
+$sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE MOD(CAST(RIGHT(studIC, 1) AS UNSIGNED), 2) = 1";
+$stmtMale = $conn->prepare($sqlMale);
+$stmtMale->execute();
+$resMale = $stmtMale->get_result();
+$maleCount = $resMale->fetch_assoc()['maleCount'];
+
+$sqlFemale = "SELECT COUNT(*) as femaleCount FROM student WHERE MOD(CAST(RIGHT(studIC, 1) AS UNSIGNED), 2) = 0";
+$stmtFemale = $conn->prepare($sqlFemale);
+$stmtFemale->execute();
+$resFemale = $stmtFemale->get_result();
+$femaleCount = $resFemale->fetch_assoc()['femaleCount'];
+
+$stmtMale->close();
+$stmtFemale->close();
+$conn->close();
 ?>
 
 <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
@@ -23,7 +44,7 @@ include 'StaffHeader.php';
             <div class="card text-white bg-success mb-3">
                 <div class="card-header">Total Students</div>
                 <div class="card-body">
-                    <h5 class="card-title">450</h5>
+                    <h5 class="card-title"><?php echo $totalStud; ?></h5>
                     <div class="progress mb-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
                         <div class="progress-bar" style="width: 45%"></div>
                     </div>
@@ -33,9 +54,9 @@ include 'StaffHeader.php';
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-warning mb-3">
-                <div class="card-header">New Students</div>
+                <div class="card-header">Total Registration</div>
                 <div class="card-body">
-                    <h5 class="card-title">155</h5>
+                    <h5 class="card-title"><?php echo $totalReg; ?></h5>
                     <div class="progress mb-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
                         <div class="progress-bar" style="width: 40%"></div>
                     </div>
@@ -45,9 +66,9 @@ include 'StaffHeader.php';
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-info mb-3">
-                <div class="card-header">Total Staff</div>
+                <div class="card-header">Total Clerk</div>
                 <div class="card-body">
-                    <h5 class="card-title">52</h5>
+                    <h5 class="card-title"><?php echo $totalClerk; ?></h5>
                     <div class="progress mb-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
                         <div class="progress-bar" style="width: 85%"></div>
                     </div>
@@ -93,50 +114,64 @@ include 'StaffHeader.php';
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx1 = document.getElementById('myChart1').getContext('2d');
-    var myChart1 = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Income',
-                data: [19, 15, 22, 25, 31, 19, 31],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Income Line Chart
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+        var myChart1 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Income',
+                    data: [19, 15, 22, 25, 31, 19, 31],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
 
-    var ctx2 = document.getElementById('myChart2').getContext('2d');
-    var myChart2 = new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Survey',
-                data: [12, 19, 3, 5, 2, 3, 7],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Gender Distribution Bar Chart
+        var maleCount = <?php echo $maleCount; ?>;
+        var femaleCount = <?php echo $femaleCount; ?>;
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Male', 'Female'],
+                datasets: [{
+                    label: 'Student Count',
+                    data: [maleCount, femaleCount],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 2, // Adjust the step size as needed
+                            
+                        }
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 
 </html>

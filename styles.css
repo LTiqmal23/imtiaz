@@ -212,3 +212,60 @@ body {
 .table i:hover{
     color: var(--active-font-color);
 }
+
+
+
+
+
+.profile-img {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    border-radius: 50%;
+    border: 3px solid var(--active-font-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-floating {
+    margin-bottom: 15px;
+}
+
+.form-control:focus {
+    border-color: var(--active-font-color);
+    box-shadow: 0 0 0 0.25rem rgba(176, 48, 96, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--active-font-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    opacity: 90%;
+    background-color: var(--active-font-color);
+    border: none;
+}
+
+a {
+    color: var(--active-font-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--softer-color);
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: var(--pop-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

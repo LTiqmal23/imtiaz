@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <?php
 // database connection
-include "config.php";
-
+include 'db.php';
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
     $username = htmlspecialchars($_POST['username']);
@@ -15,8 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
-        // Student found, redirect to student home page
-        header("Location: studentHome.php");
+        // Student found, set session variables and redirect to student home page
+        $row = $result->fetch_assoc();
+        $_SESSION['studID'] = $row['studID'];
+        $_SESSION['studName'] = $row['studName'];
+        header("Location: ../StudentHome.php");
         exit();
     }
 
@@ -28,7 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         // Clerk found, redirect to clerk home page
-        header("Location: clerkHome.php");
+        $row = $result->fetch_assoc();
+        $_SESSION['clerkID'] = $row['clerkID'];
+        $_SESSION['clerkName'] = $row['clerkName'];
+        header("Location: ../StaffDashboard.php");
         exit();
     }
 
