@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 10, 2024 at 05:32 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Host: localhost:3306
+-- Generation Time: Jul 15, 2024 at 12:14 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,19 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `clerk` (
-  `clerkID` int(11) NOT NULL,
+  `clerkID` int NOT NULL,
   `clerkName` varchar(50) NOT NULL,
   `clerkPhone` varchar(15) NOT NULL,
-  `clerkUsername` varchar(30) NOT NULL,
+  `clerkEmail` varchar(30) DEFAULT NULL,
   `clerkPassword` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `clerk`
 --
 
-INSERT INTO `clerk` (`clerkID`, `clerkName`, `clerkPhone`, `clerkUsername`, `clerkPassword`) VALUES
-(601725, 'Fauzan', '0189864532', 'fauzan', 'clerk1');
+INSERT INTO `clerk` (`clerkID`, `clerkName`, `clerkPhone`, `clerkEmail`, `clerkPassword`) VALUES
+(601725, 'Fauzan', '0189864532', 'staff1@imitaz.edu.my', 'clerk1');
 
 -- --------------------------------------------------------
 
@@ -49,19 +49,19 @@ INSERT INTO `clerk` (`clerkID`, `clerkName`, `clerkPhone`, `clerkUsername`, `cle
 --
 
 CREATE TABLE `principal` (
-  `principalID` int(11) NOT NULL,
+  `principalID` int NOT NULL,
   `principalName` varchar(50) NOT NULL,
   `principalPhone` varchar(15) NOT NULL,
-  `principalUsername` varchar(30) NOT NULL,
+  `principalEmail` varchar(30) DEFAULT NULL,
   `principalPassword` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `principal`
 --
 
-INSERT INTO `principal` (`principalID`, `principalName`, `principalPhone`, `principalUsername`, `principalPassword`) VALUES
-(703654, 'Saidi', '0164332878', 'saidi', 'principal1');
+INSERT INTO `principal` (`principalID`, `principalName`, `principalPhone`, `principalEmail`, `principalPassword`) VALUES
+(703654, 'Saidi', '0164332878', 'principal@imitaz.edu.my', 'principal1');
 
 -- --------------------------------------------------------
 
@@ -70,12 +70,19 @@ INSERT INTO `principal` (`principalID`, `principalName`, `principalPhone`, `prin
 --
 
 CREATE TABLE `register` (
-  `registerID` int(11) NOT NULL,
+  `registerID` int NOT NULL,
   `registerDate` date DEFAULT NULL,
-  `studID` int(11) DEFAULT NULL,
-  `clerkID` int(11) DEFAULT NULL,
-  `principalID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `registerStatus` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'PENDING',
+  `studID` int DEFAULT NULL,
+  `clerkID` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `register`
+--
+
+INSERT INTO `register` (`registerID`, `registerDate`, `registerStatus`, `studID`, `clerkID`) VALUES
+(300200, '2024-06-01', 'PENDING', 2022495412, 601725);
 
 -- --------------------------------------------------------
 
@@ -84,23 +91,23 @@ CREATE TABLE `register` (
 --
 
 CREATE TABLE `student` (
-  `studID` int(11) NOT NULL,
+  `studID` int NOT NULL,
   `studName` varchar(50) NOT NULL,
   `studIC` varchar(12) NOT NULL,
   `studDOB` date NOT NULL,
   `studPhone` varchar(15) NOT NULL,
   `studAddress` varchar(100) NOT NULL,
   `studRace` varchar(20) NOT NULL,
-  `studUsername` varchar(30) NOT NULL,
+  `studEmail` varchar(30) DEFAULT NULL,
   `studPassword` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`studID`, `studName`, `studIC`, `studDOB`, `studPhone`, `studAddress`, `studRace`, `studUsername`, `studPassword`) VALUES
-(2022495412, 'iqmal', '030923090345', '2003-09-23', '0195673421', 'UiTMKT', 'MELAYU', 'iqmal', 'kemah');
+INSERT INTO `student` (`studID`, `studName`, `studIC`, `studDOB`, `studPhone`, `studAddress`, `studRace`, `studEmail`, `studPassword`) VALUES
+(2022495412, 'iqmal', '030923090345', '2003-09-23', '0195673421', 'UiTMKT', 'MELAYU', '20225@imtiaz.edu.my', 'stud1');
 
 --
 -- Indexes for dumped tables
@@ -110,13 +117,15 @@ INSERT INTO `student` (`studID`, `studName`, `studIC`, `studDOB`, `studPhone`, `
 -- Indexes for table `clerk`
 --
 ALTER TABLE `clerk`
-  ADD PRIMARY KEY (`clerkID`);
+  ADD PRIMARY KEY (`clerkID`),
+  ADD UNIQUE KEY `clerkEmail` (`clerkEmail`);
 
 --
 -- Indexes for table `principal`
 --
 ALTER TABLE `principal`
-  ADD PRIMARY KEY (`principalID`);
+  ADD PRIMARY KEY (`principalID`),
+  ADD UNIQUE KEY `principalEmail` (`principalEmail`);
 
 --
 -- Indexes for table `register`
@@ -124,14 +133,14 @@ ALTER TABLE `principal`
 ALTER TABLE `register`
   ADD PRIMARY KEY (`registerID`),
   ADD KEY `studID` (`studID`),
-  ADD KEY `clerkID` (`clerkID`),
-  ADD KEY `principalID` (`principalID`);
+  ADD KEY `clerkID` (`clerkID`);
 
 --
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
-  ADD PRIMARY KEY (`studID`);
+  ADD PRIMARY KEY (`studID`),
+  ADD UNIQUE KEY `studEmail` (`studEmail`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -141,25 +150,25 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `clerk`
 --
 ALTER TABLE `clerk`
-  MODIFY `clerkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=601726;
+  MODIFY `clerkID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=601726;
 
 --
 -- AUTO_INCREMENT for table `principal`
 --
 ALTER TABLE `principal`
-  MODIFY `principalID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=703655;
+  MODIFY `principalID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=703655;
 
 --
 -- AUTO_INCREMENT for table `register`
 --
 ALTER TABLE `register`
-  MODIFY `registerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `registerID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300201;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `studID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2022495413;
+  MODIFY `studID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2022495413;
 
 --
 -- Constraints for dumped tables
@@ -170,8 +179,7 @@ ALTER TABLE `student`
 --
 ALTER TABLE `register`
   ADD CONSTRAINT `register_ibfk_1` FOREIGN KEY (`studID`) REFERENCES `student` (`studID`),
-  ADD CONSTRAINT `register_ibfk_2` FOREIGN KEY (`clerkID`) REFERENCES `clerk` (`clerkID`),
-  ADD CONSTRAINT `register_ibfk_3` FOREIGN KEY (`principalID`) REFERENCES `principal` (`principalID`);
+  ADD CONSTRAINT `register_ibfk_2` FOREIGN KEY (`clerkID`) REFERENCES `clerk` (`clerkID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

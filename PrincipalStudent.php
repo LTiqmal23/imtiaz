@@ -1,8 +1,7 @@
 <?php 
 $title= "Student Management";
-include 'StaffHeader.php'; 
+include 'PrincipalHeader.php'; 
 ?>
-
 
 
     <?php

@@ -1,7 +1,7 @@
 <?php
 session_start();
 $clerkID = $_SESSION['clerkID'];
-$clerkName= $_SESSION['clerkName'];
+$clerkName = $_SESSION['clerkName'];
 include 'process/db.php';
 ?>
 
@@ -19,7 +19,11 @@ include 'process/db.php';
 </head>
 
 <body>
-
+    <script>
+        function printPage() {
+            window.print();
+        }
+    </script>
 
     <div class="container-fluid">
         <div class="row">
@@ -36,10 +40,24 @@ include 'process/db.php';
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item"><a href="StaffDashboard.php" class="nav-link"><i class="fas fa-home"></i>Home</a></li>
+                    <li class="nav-item"><a href="StaffRegister.php" class="nav-link"><i class="fas fa-plus-square"></i>Register</a></li>
                     <li class="nav-item"><a href="StaffStudent.php" class="nav-link"><i class="fas fa-user-graduate"></i>Students</a></li>
                     <li class="nav-item"><a href="StaffStaff.php" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Staff</a></li>
-                    
+
                     <li class="nav-item logout"><a href="MainLogout.php" class="nav-link"><i class="fas fa-power-off"></i>Logout</a></li>
                 </ul>
             </nav>
-   
+            <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><?php echo $title ?></h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="printPage()">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <span data-feather="calendar"></span>
+                            This week
+                        </button>
+                    </div>
+                </div>

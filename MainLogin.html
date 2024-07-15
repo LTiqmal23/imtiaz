@@ -18,22 +18,46 @@
                     <h1>Imtiaz Login</h1>
                     <p>Hey, Enter your details to sign in to your account</p>
                 </div>
-                
+
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="username" required>
-                    <label for="floatingInput">Username</label>
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+                        name="email" required>
+                    <label for="floatingInput">Email</label>
                 </div>
+
                 <div class="form-floating mb-4">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                        name="password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Sign in</button>
                 <div class="text-center mt-3">
-                    <a href="MainRegister.html">Don't have an account? Register Now</a>
+                    Don't have an account? <a href="MainRegister.html">Register Now</a>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+
+        const alertTrigger = document.getElementById('liveAlertBtn')
+        if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+                appendAlert('Nice, you triggered this alert message!', 'success')
+            })
+        }
+    </script>
 </body>
 
 </html>

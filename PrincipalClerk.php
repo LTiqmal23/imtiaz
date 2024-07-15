@@ -1,8 +1,6 @@
 <?php 
-$title= "Student Management";
-include 'StaffHeader.php'; 
-?>
-
+$title= "Clerk Management";
+include 'PrincipalHeader.php'; ?>
 
 
     <?php
@@ -19,24 +17,23 @@ include 'StaffHeader.php';
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
-                <div class="card-header">Imtiaz Student</div>
+                <div class="card-header">Imtiaz Clerk</div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-                            Add Student
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClerkModal">
+                            Add Clerk
                         </button>
                         <div class="input-group" style="width: 300px;">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search Student" onkeyup="searchStudents()">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search Clerk" onkeyup="searchClerks()">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                         </div>
                     </div>
 
-                    <table class="table" id="studentTable">
+                    <table class="table" id="clerkTable">
                         <thead>
                             <tr>
-                                <th>Student ID</th>
+                                <th>Staff ID</th>
                                 <th>Full Name</th>
-                                <th>DOB</th>
                                 <th>Phone</th>
                                 <th>Action</th>
                             </tr>
@@ -44,18 +41,18 @@ include 'StaffHeader.php';
                         <tbody>
                             <?php
                             include 'process/db.php';
-                            $sql = "SELECT * FROM student";
+                            $sql = "SELECT * FROM clerk";
                             $result = $conn->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<tr><td>" . $row["studID"] . "</td><td>" . $row["studName"] . "</td><td>" . $row["studDOB"] . "</td><td>" . $row["studPhone"] . "</td><td>
-                                    <a href='#' class='view' data-id='" . $row["studID"] . "'><i class='fas fa-eye'></i></a>
-                                    <a href='#' class='edit' data-id='" . $row["studID"] . "'><i class='fas fa-edit'></i></a>
-                                    <a href='#' class='delete' data-id='" . $row["studID"] . "'><i class='fas fa-trash'></i></a>
+                                    echo "<tr><td>" . $row["clerkID"] . "</td><td>" . $row["clerkName"] . "</td><td>" . $row["clerkPhone"] . "</td><td>
+                                    <a href='#' class='view ' data-id='" . $row["clerkID"] . "'><i class='fas fa-eye'></i></a>
+                                    <a href='#' class='edit ms-2' data-id='" . $row["clerkID"] . "'><i class='fas fa-edit'></i></a>
+                                    <a href='#' class='delete ms-2' data-id='" . $row["clerkID"] . "'><i class='fas fa-trash'></i></a>
                                     </td></tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='5'>No results</td></tr>";
+                                echo "<tr><td colspan='4'>No results</td></tr>";
                             }
                             $conn->close();
                             ?>
@@ -70,64 +67,56 @@ include 'StaffHeader.php';
         </div>
     </div>
 
-    <!-- Add Student Modal -->
-    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <!-- Add Clerk Modal -->
+    <div class="modal fade" id="addClerkModal" tabindex="-1" aria-labelledby="addClerkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                    <h5 class="modal-title" id="addClerkModalLabel">Add Clerk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="add_student.php" method="POST">
+                    <form action="process/add_clerk.php" method="POST">
                         <div class="mb-3">
-                            <label for="studID" class="form-label">Student ID</label>
-                            <input type="text" class="form-control" id="studID" name="studID" required>
+                            <label for="clerkID" class="form-label">Staff ID</label>
+                            <input type="text" class="form-control" id="clerkID" name="clerkID" required>
                         </div>
                         <div class="mb-3">
-                            <label for="studName" class="form-label">Student Name</label>
-                            <input type="text" class="form-control" id="studName" name="studName" required>
+                            <label for="clerkName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="clerkName" name="clerkName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="studDOB" class="form-label">DOB</label>
-                            <input type="date" class="form-control" id="studDOB" name="studDOB" required>
+                            <label for="clerkPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="clerkPhone" name="clerkPhone" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="studPhone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="studPhone" name="studPhone" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Student</button>
+                        <button type="submit" class="btn btn-primary">Add Clerk</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- View Student Modal -->
-    <div class="modal fade" id="viewStudentModal" tabindex="-1" aria-labelledby="viewStudentModalLabel" aria-hidden="true">
+    <!-- View Clerk Modal -->
+    <div class="modal fade" id="viewClerkModal" tabindex="-1" aria-labelledby="viewClerkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="viewStudentModalLabel">View Student</h5>
+                    <h5 class="modal-title" id="viewClerkModalLabel">View Clerk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="viewStudID" class="form-label">Student ID</label>
-                            <input type="text" class="form-control" id="viewStudID" disabled>
+                            <label for="viewClerkID" class="form-label">Staff ID</label>
+                            <input type="text" class="form-control" id="viewClerkID" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="viewStudName" class="form-label">Student Name</label>
-                            <input type="text" class="form-control" id="viewStudName" disabled>
+                            <label for="viewClerkName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="viewClerkName" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="viewStudDOB" class="form-label">DOB</label>
-                            <input type="date" class="form-control" id="viewStudDOB" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="viewStudPhone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="viewStudPhone" disabled>
+                            <label for="viewClerkPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="viewClerkPhone" disabled>
                         </div>
                     </form>
                 </div>
@@ -135,51 +124,47 @@ include 'StaffHeader.php';
         </div>
     </div>
 
-    <!-- Edit Student Modal -->
-    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <!-- Edit Clerk Modal -->
+    <div class="modal fade" id="editClerkModal" tabindex="-1" aria-labelledby="editClerkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editStudentModalLabel">Edit Student</h5>
+                    <h5 class="modal-title" id="editClerkModalLabel">Edit Clerk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="process/edit_student.php" method="POST">
+                    <form action="process/edit_clerk.php" method="POST">
                         <div class="mb-3">
-                            <label for="editStudID" class="form-label">Student ID</label>
-                            <input type="text" class="form-control" id="editStudID" name="studID" required>
+                            <label for="editClerkID" class="form-label">Staff ID</label>
+                            <input type="text" class="form-control" id="editClerkID" name="clerkID" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editStudName" class="form-label">Student Name</label>
-                            <input type="text" class="form-control" id="editStudName" name="studName" required>
+                            <label for="editClerkName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="editClerkName" name="clerkName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editStudDOB" class="form-label">DOB</label>
-                            <input type="date" class="form-control" id="editStudDOB" name="studDOB" required>
+                            <label for="editClerkPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="editClerkPhone" name="clerkPhone" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="editStudPhone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="editStudPhone" name="studPhone" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update Student</button>
+                        <button type="submit" class="btn btn-primary">Update Clerk</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Student Modal -->
-    <div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="deleteStudentModalLabel" aria-hidden="true">
+    <!-- Delete Clerk Modal -->
+    <div class="modal fade" id="deleteClerkModal" tabindex="-1" aria-labelledby="deleteClerkModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteStudentModalLabel">Delete Student</h5>
+                    <h5 class="modal-title" id="deleteClerkModalLabel">Delete Clerk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this student?</p>
-                    <form action="process/delete_student.php" method="POST">
-                        <input type="hidden" id="deleteStudID" name="studID">
+                    <p>Are you sure you want to delete this clerk?</p>
+                    <form action="process/delete_clerk.php" method="POST">
+                        <input type="hidden" id="deleteClerkID" name="clerkID">
                         <button type="submit" class="btn btn-danger">Delete</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
@@ -193,7 +178,7 @@ include 'StaffHeader.php';
 <script>
     let current_page = 1;
     const records_per_page = 10;
-    const rows = document.querySelectorAll("#studentTable tbody tr");
+    const rows = document.querySelectorAll("#clerkTable tbody tr");
 
     function changePage(page) {
         const pagination = document.getElementById("pagination");
@@ -255,37 +240,37 @@ include 'StaffHeader.php';
         document.querySelectorAll('.view').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                // Fetch and display the student details in the view modal
-                fetchStudentDetails(id, 'view');
+                // Fetch and display the clerk details in the view modal
+                fetchClerkDetails(id, 'view');
             });
         });
 
         document.querySelectorAll('.edit').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                // Fetch and display the student details in the edit modal
-                fetchStudentDetails(id, 'edit');
+                // Fetch and display the clerk details in the edit modal
+                fetchClerkDetails(id, 'edit');
             });
         });
 
         document.querySelectorAll('.delete').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                // Set the student ID in the delete confirmation modal
-                document.getElementById('deleteStudID').value = id;
+                // Set the clerk ID in the delete confirmation modal
+                document.getElementById('deleteClerkID').value = id;
                 // Show the delete confirmation modal
-                new bootstrap.Modal(document.getElementById('deleteStudentModal')).show();
+                new bootstrap.Modal(document.getElementById('deleteClerkModal')).show();
             });
         });
     };
 
-    function searchStudents() {
+    function searchClerks() {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const rows = document.querySelectorAll('.table tbody tr');
 
         rows.forEach(row => {
-            const studentName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (studentName.includes(input)) {
+            const clerkName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (clerkName.includes(input)) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";
@@ -293,22 +278,20 @@ include 'StaffHeader.php';
         });
     }
 
-    function fetchStudentDetails(id, mode) {
-        fetch(`process/get_student.php?id=${id}`)
+    function fetchClerkDetails(id, mode) {
+        fetch(`process/get_clerk.php?id=${id}`)
             .then(response => response.json())
             .then(data => {
                 if (mode === 'view') {
-                    document.getElementById('viewStudID').value = data.studID;
-                    document.getElementById('viewStudName').value = data.studName;
-                    document.getElementById('viewStudDOB').value = data.studDOB;
-                    document.getElementById('viewStudPhone').value = data.studPhone;
-                    new bootstrap.Modal(document.getElementById('viewStudentModal')).show();
+                    document.getElementById('viewClerkID').value = data.clerkID;
+                    document.getElementById('viewClerkName').value = data.clerkName;
+                    document.getElementById('viewClerkPhone').value = data.clerkPhone;
+                    new bootstrap.Modal(document.getElementById('viewClerkModal')).show();
                 } else if (mode === 'edit') {
-                    document.getElementById('editStudID').value = data.studID;
-                    document.getElementById('editStudName').value = data.studName;
-                    document.getElementById('editStudDOB').value = data.studDOB;
-                    document.getElementById('editStudPhone').value = data.studPhone;
-                    new bootstrap.Modal(document.getElementById('editStudentModal')).show();
+                    document.getElementById('editClerkID').value = data.clerkID;
+                    document.getElementById('editClerkName').value = data.clerkName;
+                    document.getElementById('editClerkPhone').value = data.clerkPhone;
+                    new bootstrap.Modal(document.getElementById('editClerkModal')).show();
                 }
             })
             .catch(error => console.error('Error:', error));
