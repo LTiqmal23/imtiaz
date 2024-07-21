@@ -61,7 +61,7 @@ if (isset($_SESSION['message'])) {
                                 }
 
                                 echo "<td>";
-                                echo "<a href='#' class='view btn btn-info' data-id='" . $row["registerID"] . "' data-name='" . $row["studName"] . "' data-date='" . $row["registerDate"] . "' data-studID='" . $row["studID"] . "'><i class='fas fa-eye'></i></a> ";
+                                echo "<a href='#' class='view' data-id='" . $row["registerID"] . "' data-name='" . $row["studName"] . "' data-date='" . $row["registerDate"] . "' data-studID='" . $row["studID"] . "'><i class='fas fa-eye'></i></a> ";
                                 if ($row["registerStatus"] == 'PENDING') {
                                     echo "<a href='process/registerAccept.php?acceptID=" . $row["registerID"] . "' class='btn btn-primary'>Accept</a> ";
                                     echo "<a href='process/registerReject.php?rejectID=" . $row["registerID"] . "' class='btn btn-danger'>Reject</a>";

@@ -28,7 +28,7 @@ if (isset($_GET['rejectID'])) {
 
         // Redirect with success message
         echo "<script>
-            alert('Application has been accepted');
+            alert('Application has been rejected');
             window.location.href = '../StaffRegister.php';
         </script>";
     } catch (Exception $e) {

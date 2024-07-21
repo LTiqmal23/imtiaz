@@ -33,8 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row_status = $result_status->fetch_assoc();
             $status = $row_status['registerStatus'];
 
-            if ($status == 'PENDING' || $status == 'REJECTED') {
+            if ($status == 'PENDING') {
                 header("Location: ../StudentPending.php");
+            } else if ($status == 'REJECTED') {
+                header("Location: ../StudentRejected.php");
             } else {
                 header("Location: ../StudentHome.php");
             }
