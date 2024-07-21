@@ -35,7 +35,7 @@ include 'process/db.php';
                     <img src="staff.png" alt="">
                     <div class="profile-info ms-2">
                         <h4><?php echo $clerkName; ?></h4>
-                        <p>Staff</p>
+                        <p>Clerk</p>
                     </div>
                 </div>
                 <ul class="nav flex-column">
