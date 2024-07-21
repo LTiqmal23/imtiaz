@@ -54,9 +54,9 @@ $conn->close();
     </div>
     <div class="col-md-3">
         <div class="card text-white bg-danger mb-3">
-            <div class="card-header">Fees Collection</div>
+            <div class="card-header">Total Rejected Application</div>
             <div class="card-body">
-                <h5 class="card-title">$13,921</h5>
+                <h5 class="card-title"><?php echo $totalReject; ?></h5>
             </div>
         </div>
     </div>

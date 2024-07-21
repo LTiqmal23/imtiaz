@@ -7,7 +7,8 @@ if (!isset($conn) || $conn === null) {
 }
 
 // Total Student
-$sqlStud = "SELECT COUNT(*) as total FROM student";
+$sqlStud = "select COUNT(*) as total FROM student s 
+JOIN register r ON s.studID = r.studID where r.registerStatus = 'ACCEPTED'";
 $stmtStud = $conn->prepare($sqlStud);
 $stmtStud->execute();
 $resStud = $stmtStud->get_result();
@@ -48,6 +49,20 @@ if ($regClerk->num_rows > 0) {
     }
 }
 
+// Total Rejected 
+$sqlReject = "select COUNT(registerID) as total FROM register where registerStatus = 'REJECTED'";
+$stmtReject = $conn->prepare($sqlReject);
+$stmtReject->execute();
+$regReject = $stmtReject->get_result();
+
+$totalReject = 0; // Initialize total variable
+
+if ($regReject->num_rows > 0) {
+    while ($row = $regReject->fetch_assoc()) {
+        $totalReject = $row['total'];
+    }
+}
+
 // Fetch male and female student counts based on studIC
 $sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE MOD(CAST(RIGHT(studIC, 1) AS UNSIGNED), 2) = 1";
 $stmtMale = $conn->prepare($sqlMale);
@@ -79,18 +94,21 @@ $sql = "
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         $studentCountsByMonth[$row['month'] - 1] = $row['student_count']; // month is 1-12, array index is 0-11
     }
 }
 ?>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
