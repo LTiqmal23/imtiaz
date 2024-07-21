@@ -18,9 +18,9 @@ if (isset($_SESSION['message'])) {
             <div class="card-header">User Registration</div>
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
                         Register User
-                    </button>
+                    </button> -->
                     <div class="input-group" style="width: 300px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search Registration" onkeyup="searchRegistration()">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>

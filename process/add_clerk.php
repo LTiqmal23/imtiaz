@@ -3,11 +3,12 @@ session_start();
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $clerkID = $_POST['clerkID'];
     $clerkName = $_POST['clerkName'];
     $clerkPhone = $_POST['clerkPhone'];
+    $clerkEmail = $_POST['clerkEmail'];
+    $clerkPassword = $_POST['clerkPassword'];
 
-    $sql = "INSERT INTO clerk (clerkID, clerkName, clerkPhone) VALUES ('$clerkID', '$clerkName', '$clerkPhone')";
+    $sql = "INSERT INTO clerk (clerkName, clerkPhone, clerkEmail, clerkPassword) VALUES ('$clerkName', '$clerkPhone', '$clerkEmail', '$clerkPassword')";
     if ($conn->query($sql) === TRUE) {
         $_SESSION['message'] = "New record created successfully";
         $_SESSION['message_type'] = "success";
@@ -17,6 +18,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $conn->close();
-    header('Location: ../StaffStaff.php'); 
+    header('Location: ../StaffStaff.php');
 }
-?>
