@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $status = $row_status['registerStatus'];
 
             if ($status == 'PENDING' || $status == 'REJECTED') {
-                header("Location: ../StudentPending.html");
+                header("Location: ../StudentPending.php");
             } else {
                 header("Location: ../StudentHome.php");
             }
