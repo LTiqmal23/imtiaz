@@ -2,7 +2,6 @@
 <html lang="en">
 <?php
 session_start();
-session_start();
 $ID = $_GET['rejectID'];
 $clerkID = $_SESSION['clerkID'];
 
