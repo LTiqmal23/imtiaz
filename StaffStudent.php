@@ -1,5 +1,6 @@
 <?php
 $title = "Student Management";
+$tableid = "studentTable";
 include 'StaffHeader.php';
 ?>
 
@@ -292,7 +293,7 @@ if (isset($_SESSION['message'])) {
         const rows = document.querySelectorAll('.table tbody tr');
 
         rows.forEach(row => {
-            const studentName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const studentName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
             if (studentName.includes(input)) {
                 row.style.display = "";
             } else {
