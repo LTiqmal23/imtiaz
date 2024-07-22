@@ -21,9 +21,9 @@ if (isset($_SESSION['message'])) {
             <div class="card-header">Imtiaz Student</div>
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
                         Add Student
-                    </button>
+                    </button> -->
                     <div class="input-group" style="width: 300px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search Student" onkeyup="searchStudents()">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>

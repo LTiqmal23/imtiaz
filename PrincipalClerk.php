@@ -20,9 +20,9 @@ if (isset($_SESSION['message'])) {
             <div class="card-header">Imtiaz Clerk</div>
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClerkModal">
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClerkModal">
                         Add Clerk
-                    </button>
+                    </button> -->
                     <div class="input-group" style="width: 300px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search Clerk" onkeyup="searchClerks()">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
