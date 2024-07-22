@@ -1,5 +1,6 @@
 <?php
 $title = "Clerk Management";
+$tableid = "clerkTable";
 include 'StaffHeader.php'; ?>
 
 <?php
@@ -33,8 +34,8 @@ if (isset($_SESSION['message'])) {
                         <tr>
                             <th>Clerk ID</th>
                             <th>Full Name</th>
-                            <th>Email</th>
                             <th>Phone</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                     </thead>

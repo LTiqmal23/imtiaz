@@ -1,5 +1,6 @@
 <?php
 $title = "Student Management";
+$tableid = "registerTable";
 include 'StaffHeader.php';
 
 if (isset($_SESSION['message'])) {
@@ -18,16 +19,21 @@ if (isset($_SESSION['message'])) {
             <div class="card-header">User Registration</div>
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-                        Register User
-                    </button> -->
                     <div class="input-group" style="width: 300px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search Registration" onkeyup="searchRegistration()">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
+                    <div class="input-group" style="width: 200px;">
+                        <select id="statusFilter" class="form-select" onchange="filterStatus()">
+                            <option value="">All Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="ACCEPTED">Accepted</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                    </div>
                 </div>
 
-                <table class="table" id="studentTable">
+                <table class="table" id="registerTable">
                     <thead>
                         <tr>
                             <th>Register ID</th>
@@ -42,12 +48,12 @@ if (isset($_SESSION['message'])) {
                         <?php
                         include 'process/db.php';
 
-                        $sql = "select * FROM register r JOIN student s ON r.studID = s.studID";
+                        $sql = "SELECT * FROM register r JOIN student s ON r.studID = s.studID";
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
+                                echo "<tr data-status='" . $row["registerStatus"] . "'>";
                                 echo "<td>" . $row["registerID"] . "</td>";
                                 echo "<td>" . $row["registerDate"] . "</td>";
                                 echo "<td>" . $row["studID"] . "</td>";
@@ -106,14 +112,10 @@ if (isset($_SESSION['message'])) {
     </div>
 </div>
 
-
-
-</main>
-
 <script>
     let current_page = 1;
     const records_per_page = 10;
-    const rows = document.querySelectorAll("#studentTable tbody tr");
+    const rows = document.querySelectorAll("#registerTable tbody tr");
 
     function changePage(page) {
         const pagination = document.getElementById("pagination");
@@ -169,42 +171,12 @@ if (isset($_SESSION['message'])) {
         }
     }
 
-    window.onload = function() {
-        changePage(1);
-
-        document.querySelectorAll('.view').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                // Fetch and display the student details in the view modal
-                fetchStudentDetails(id, 'view');
-            });
-        });
-
-        document.querySelectorAll('.edit').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                // Fetch and display the student details in the edit modal
-                fetchStudentDetails(id, 'edit');
-            });
-        });
-
-        document.querySelectorAll('.delete').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                // Set the student ID in the delete confirmation modal
-                document.getElementById('deleteStudID').value = id;
-                // Show the delete confirmation modal
-                new bootstrap.Modal(document.getElementById('deleteStudentModal')).show();
-            });
-        });
-    };
-
-    function searchStudents() {
+    function searchRegistration() {
         const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('.table tbody tr');
+        const rows = document.querySelectorAll('#registerTable tbody tr');
 
         rows.forEach(row => {
-            const studentName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const studentName = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
             if (studentName.includes(input)) {
                 row.style.display = "";
             } else {
@@ -213,47 +185,40 @@ if (isset($_SESSION['message'])) {
         });
     }
 
-    function fetchStudentDetails(id, mode) {
-        fetch(`process/get_student.php?id=${id}`)
-            .then(response => response.json())
-            .then(data => {
-                if (mode === 'view') {
-                    document.getElementById('viewStudID').value = data.studID;
-                    document.getElementById('viewStudName').value = data.studName;
-                    document.getElementById('viewStudDOB').value = data.studDOB;
-                    document.getElementById('viewStudPhone').value = data.studPhone;
-                    new bootstrap.Modal(document.getElementById('viewStudentModal')).show();
-                } else if (mode === 'edit') {
-                    document.getElementById('editStudID').value = data.studID;
-                    document.getElementById('editStudName').value = data.studName;
-                    document.getElementById('editStudDOB').value = data.studDOB;
-                    document.getElementById('editStudPhone').value = data.studPhone;
-                    new bootstrap.Modal(document.getElementById('editStudentModal')).show();
-                }
-            })
-            .catch(error => console.error('Error:', error));
+    function filterStatus() {
+        const filter = document.getElementById('statusFilter').value;
+        const rows = document.querySelectorAll('#registerTable tbody tr');
+
+        rows.forEach(row => {
+            const status = row.getAttribute('data-status');
+            if (filter === "" || status === filter) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        var viewButtons = document.querySelectorAll('.view');
-        viewButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var registerID = this.getAttribute('data-id');
-                var studName = this.getAttribute('data-name');
-                var registerDate = this.getAttribute('data-date');
-                var studID = this.getAttribute('data-studID');
+        changePage(1);
 
-                document.getElementById('modal-registerID').textContent = registerID;
-                document.getElementById('modal-registerDate').textContent = registerDate;
-                document.getElementById('modal-studName').textContent = studName;
+        document.querySelectorAll('.view').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const date = this.getAttribute('data-date');
+                const studID = this.getAttribute('data-studID');
+
+                document.getElementById('modal-registerID').textContent = id;
+                document.getElementById('modal-registerDate').textContent = date;
+                document.getElementById('modal-studName').textContent = name;
                 document.getElementById('modal-studID').textContent = studID;
 
-                var modal = new bootstrap.Modal(document.getElementById('viewModal'));
+                const modal = new bootstrap.Modal(document.getElementById('viewModal'));
                 modal.show();
             });
         });
     });
 </script>
 </body>
-
 </html>

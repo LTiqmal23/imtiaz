@@ -6,9 +6,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studID = $_POST['studID'];
 
     $sql = "DELETE FROM student WHERE studID='$studID'";
-    if ($conn->query($sql) === TRUE) {
+    $sql2 = "DELETE FROM  register WHERE studID='$studID'";
+    if ($conn->query($sql2) === TRUE) {
+        if ($conn->query($sql) === TRUE) {
         $_SESSION['message'] = "Record deleted successfully";
         $_SESSION['message_type'] = "success";
+        }
+        else {
+            $_SESSION['message'] = "Error: " . $conn->error;
+            $_SESSION['message_type'] = "danger";
+        }
     } else {
         $_SESSION['message'] = "Error: " . $conn->error;
         $_SESSION['message_type'] = "danger";
