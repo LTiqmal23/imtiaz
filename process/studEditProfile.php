@@ -5,14 +5,33 @@ include "db.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studID = $_POST['studID'];
     $studName = $_POST['studName'];
+    $studIC = $_POST['studIC'];
     $studDOB = $_POST['studDOB'];
     $studPhone = $_POST['studPhone'];
-    $studRace = $_POST['studRace'];  // Add race
-    $studAddress = $_POST['studAddress'];  // Add address
+    $studRace = $_POST['studRace'];
+    $studEmail = $_POST['studEmail'];
+    $studPassword = $_POST['studPassword'];
+    $stuGender = $_POST['stuGender'];
+    $stuAge = $_POST['stuAge'];
+    $studPostcode = $_POST['studPostcode'];
+    $studCity = $_POST['studCity'];
+    $studAddress = $_POST['studAddress'];
+    $studParentName = $_POST['studParentName'];
+    $studParentNo = $_POST['studParentNo'];
 
-    $sql = "UPDATE student SET studName=?, studDOB=?, studPhone=?, studRace=?, studAddress=? WHERE studID=?";
+    $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, stuGender=?, stuAge=?, studPostcode=?, studCity=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
+    if (!empty($studPassword)) {
+        $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, studPassword=?, stuGender=?, stuAge=?, studPostcode=?, studCity=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
+    }
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $studName, $studDOB, $studPhone, $studRace, $studAddress, $studID);
+
+    if (!empty($studPassword)) {
+        $hashedPassword = password_hash($studPassword, PASSWORD_BCRYPT);
+        $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $hashedPassword, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
+    } else {
+        $stmt->bind_param("sssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
+    }
 
     if ($stmt->execute() === TRUE) {
         $_SESSION['message'] = "Profile updated successfully";
@@ -24,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->close();
     $conn->close();
-    header('Location: ../studentProfile.php');
+    header('Location: ../StudentProfile.php');
     exit();
 }
 ?>

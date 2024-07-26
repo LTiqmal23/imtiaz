@@ -25,31 +25,60 @@ include 'process/db.php';
             window.print();
         }
 
-        function exportTableToExcel(tableID, filename = ''){
-        var downloadLink;
-        var dataType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        var tableSelect = document.getElementById(tableID);
-        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-
-        filename = filename ? filename + '.xls' : 'excel_data.xls';
-
-        downloadLink = document.createElement("a");
-
-        document.body.appendChild(downloadLink);
-
-        if(navigator.msSaveOrOpenBlob){
-            var blob = new Blob(['\ufeff', tableHTML], {
-                type: dataType
-            });
-            navigator.msSaveOrOpenBlob( blob, filename);
-        }else{
-            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-
-            downloadLink.download = filename;
-
-            downloadLink.click();
+       
+        function printPage() {
+            window.print();
         }
-    }
+
+        function exportTableToExcel(tableID, filename = '') {
+            var tableSelect = document.getElementById(tableID);
+            var workbook = XLSX.utils.table_to_book(tableSelect, { sheet: "Sheet1" });
+
+            // Apply formatting to the cells
+            var ws = workbook.Sheets["Sheet1"];
+
+            // Define the formatting
+            var fmt_date = "yyyy-mm-dd";
+            var fmt_number = "0";
+            var fmt_text = "@";
+
+            // Apply formatting to specific columns
+            for (var cell in ws) {
+                if (cell[0] === '!') continue; // skip non-data cells
+
+                if (cell.match(/A\d+/)) { // Column A - ID, Number format
+                    ws[cell].z = fmt_text;
+                } else if (cell.match(/B\d+/)) { // Column B - Name, Text format
+                    ws[cell].z = fmt_text;
+                } else if (cell.match(/C\d+/)) { // Column C - DOB, Date format
+                    ws[cell].z = fmt_text;
+                } else if (cell.match(/D\d+/)) { // Column D - Phone, Text format
+                    ws[cell].z = fmt_text;
+                }
+            }
+
+            var wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+
+            function s2ab(s) {
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+                for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+
+            var blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+            if (navigator.msSaveOrOpenBlob) {
+                navigator.msSaveOrOpenBlob(blob, filename + ".xlsx");
+            } else {
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename + ".xlsx";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     </script>
 
     <div class="container-fluid">

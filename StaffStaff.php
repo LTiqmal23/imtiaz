@@ -130,6 +130,7 @@ if (isset($_SESSION['message'])) {
                         <label for="viewClerkPhone" class="form-label">Phone</label>
                         <input type="text" class="form-control" id="viewClerkPhone" disabled>
                     </div>
+                    
                 </form>
             </div>
         </div>

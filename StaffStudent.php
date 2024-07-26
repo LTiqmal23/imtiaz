@@ -45,7 +45,10 @@ if (isset($_SESSION['message'])) {
                     <tbody>
                         <?php
                         include 'process/db.php';
-                        $sql = "SELECT * FROM student";
+                        $sql = "SELECT s.studID, s.studName, s.studDOB, s.studPhone 
+                        FROM student s 
+                        JOIN register r ON s.studID = r.studID 
+                        WHERE r.registerStatus = 'ACCEPTED'";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
