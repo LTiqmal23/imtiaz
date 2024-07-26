@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
 
     if (!empty($studPassword)) {
-        $hashedPassword = password_hash($studPassword, PASSWORD_BCRYPT);
+        
         $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $hashedPassword, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
     } else {
         $stmt->bind_param("sssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);

@@ -6,7 +6,7 @@ include 'process/db.php';
 $studID = $_SESSION['studID'];
 
 // Prepare the SQL statement
-$sql = "select * FROM student WHERE studID = ?";
+$sql = "SELECT * FROM student WHERE studID = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $studID);
 $stmt->execute();
@@ -17,10 +17,6 @@ if ($result->num_rows > 0) {
         $name = $row['studName'];
         $ic = $row['studIC'];
         $email = $row['studEmail'];
-        $gender = $row['studGender'];
-        $state = $row['studState'];
-        $district = $row['studDistrict'];
-        $poscode = $row['studPoscode'];
         $address = $row['studAddress'];
         $phone = $row['studPhone'];
         $DOB = $row['studDOB'];
@@ -64,13 +60,9 @@ $conn->close();
                             <div class="card-body student-info">
                                 <p><strong>Name:</strong> <?php echo $name; ?></p>
                                 <p><strong>Matric Number:</strong> <?php echo $studID; ?></p>
-                                <p><strong>Gender:</strong> <?php echo $gender; ?></p>
                                 <p><strong>Date of Birth:</strong> <?php echo $DOB; ?></p>
                                 <p><strong>Race:</strong> <?php echo $race; ?></p>
                                 <p><strong>Phone Number:</strong> <?php echo $phone; ?></p>
-                                <p><strong>State:</strong> <?php echo $state; ?></p>
-                                <p><strong>District:</strong> <?php echo $district; ?></p>
-                                <p><strong>Poscode:</strong> <?php echo $poscode; ?></p>
                                 <p><strong>Address:</strong> <?php echo $address; ?></p>
                                 <p><strong>Email:</strong> <?php echo $email; ?></p>
                                 <p><strong>Gender:</strong> <?php echo $gender; ?></p>
@@ -138,7 +130,12 @@ $conn->close();
                     </div>
                     <div class="mb-3">
                         <label for="editRace" class="form-label">Race</label>
-                        <input type="text" class="form-control" id="editRace" name="studRace" value="<?php echo $race; ?>">
+                        <select class="form-control" id="editRace" name="studRace">
+                            <option value="Malay" <?php echo $race == 'Malay' ? 'selected' : ''; ?>>Malay</option>
+                            <option value="Chinese" <?php echo $race == 'Chinese' ? 'selected' : ''; ?>>Chinese</option>
+                            <option value="Indian" <?php echo $race == 'Indian' ? 'selected' : ''; ?>>Indian</option>
+                            <option value="Others" <?php echo $race == 'Others' ? 'selected' : ''; ?>>Others</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="editEmail" class="form-label">Email</label>
@@ -220,52 +217,63 @@ $conn->close();
         </div>
     </div>
 </div>
-
-
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-rgkE5xAHTABUgN6D+PHV3Jj6qK6wMGFt3URZ5+E1HgNVQz+P5icHYX5rVoQxk2D9" crossorigin="anonymous"></script>
 <script>
     document.getElementById('nextModalButton').addEventListener('click', function() {
-    // Close the first modal
-    var modal1 = new bootstrap.Modal(document.getElementById('editProfileModal1'));
-    modal1.hide();
-    
-    // Open the second modal
-    var modal2 = new bootstrap.Modal(document.getElementById('editProfileModal2'));
-    modal2.show();
-});
+        // Collect data from the first form
+        const form1 = document.getElementById('editProfileForm1');
+        const formData1 = new FormData(form1);
 
-// Combine form data and submit
-document.getElementById('editProfileForm2').addEventListener('submit', function(event) {
-    event.preventDefault();
+        // Save the data to local storage
+        for (let [key, value] of formData1.entries()) {
+            localStorage.setItem(key, value);
+        }
 
-    // Collect data from the first form
-    const form1 = document.getElementById('editProfileForm1');
-    const formData1 = new FormData(form1);
+        // Close the first modal
+        var modal1 = new bootstrap.Modal(document.getElementById('editProfileModal1'));
+        modal1.hide();
+        
+        // Open the second modal
+        var modal2 = new bootstrap.Modal(document.getElementById('editProfileModal2'));
+        modal2.show();
+    });
 
-    // Collect data from the second form
-    const form2 = document.getElementById('editProfileForm2');
-    const formData2 = new FormData(form2);
+    // Combine form data and submit
+    document.getElementById('editProfileForm2').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    // Combine data
-    for (let [key, value] of formData2.entries()) {
-        formData1.append(key, value);
-    }
+        // Collect data from the first form
+        const formData1 = new FormData();
+        for (let key of Object.keys(localStorage)) {
+            formData1.append(key, localStorage.getItem(key));
+        }
 
-    // Submit combined data using fetch API
-    fetch('process/studEditProfile.php', {
-        method: 'POST',
-        body: formData1
-    }).then(response => response.text())
-      .then(data => {
-          console.log(data);
-          window.location.href = '../studentProfile.php';
-      }).catch(error => console.error('Error:', error));
-});
+        // Collect data from the second form
+        const form2 = document.getElementById('editProfileForm2');
+        const formData2 = new FormData(form2);
 
+        // Combine data
+        for (let [key, value] of formData2.entries()) {
+            formData1.append(key, value);
+        }
+
+        // Submit combined data using fetch API
+        fetch('process/studEditProfile.php', {
+            method: 'POST',
+            body: formData1
+        }).then(response => response.text())
+          .then(data => {
+              console.log(data);
+              window.location.href = '../studentProfile.php';
+          }).catch(error => console.error('Error:', error));
+    });
+
+    // Clear local storage when the second modal is closed
+    document.getElementById('editProfileModal2').addEventListener('hidden.bs.modal', function () {
+        localStorage.clear();
+    });
 </script>
-
 </body>
 </html>
