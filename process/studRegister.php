@@ -19,10 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $IC  = $_POST['IC'];
     $dob  = $_POST['DOB'];
     $phone  = $_POST['phone'];
+    $state  = $_POST['address'];
+    $district  = $_POST['address'];
+    $poscode  = $_POST['address'];
     $address  = $_POST['address'];
     $race  = $_POST['race'];
     $username  = $_POST['username'];
     $password  = $_POST['password'];
+
     // SQL for execution
     $stmt = $conn->prepare("insert into `student`(`studName`, `studIC`, `studDOB`, `studPhone`, `studAddress`, `studRace`, `studUsername`, `studPassword`) 
     VALUES (?,?,?,?,?,?,?,?");
