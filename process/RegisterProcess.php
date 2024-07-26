@@ -5,6 +5,7 @@ include 'db.php';
 $email = $_POST['email'];
 $fullname = $_POST['fullname'];
 $ic = $_POST['ic'];
+$gender = $_POST['gender'];
 $password = $_POST['password'];
 $date = date('Y-m-d'); // Assuming the registration date is the current date
 
@@ -13,9 +14,9 @@ try {
     $conn->begin_transaction();
 
     // Insert into STUDENT table
-    $sql2 = "INSERT INTO STUDENT (studName, studIC, studEmail, studPassword) VALUES (?, ?, ?, ?)";
+    $sql2 = "INSERT INTO STUDENT (studName, studIC, studGender, studEmail, studPassword) VALUES (?, ?, ?, ?, ?)";
     $stmt2 = $conn->prepare($sql2);
-    $stmt2->bind_param("ssss", $fullname, $ic, $email, $password);
+    $stmt2->bind_param("sssss", $fullname, $ic, $gender, $email, $password);
     $stmt2->execute();
 
     // Generate a unique ID for the REGISTER table (assuming studID is the unique identifier)
@@ -55,4 +56,3 @@ try {
         window.history.back();
     </script>";
 }
-?>

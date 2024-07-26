@@ -1,0 +1,214 @@
+STATE
+KELANTAN
+PAHANG 
+TERENGGANU
+SELANGOR
+SABAH
+SARAWAK
+PERAK
+MELAKA
+KEDAH
+PERLIS
+NEGERI SEMBILAN
+JOHOR
+PULAU PINANG
+WILAYAH PERSEKUTUAN KUALA LUMPUR
+WILAYAH PERSEKUTUAN LABUAN
+
+DISTRICT IN PERLIS
+none
+
+DISTRICT IN KUALA LUMPUR
+none
+
+DISTRICT IN MELAKA
+Alor Gajah
+Melaka Tengah
+Jasin
+
+DISTRICT IN JOHOR
+Batu Pahat
+Johor Bahru
+Kluang
+Kota Tinggi
+Kulai
+Mersing
+Muar
+Pontian
+Segamat
+Tangkak
+
+
+DISTRICT IN KELANTAN
+Bachok
+Gua Musang
+Jeli
+Kota Bharu
+Kuala Krai
+Machang
+Pasir Mas
+Pasir Puteh
+Tanah Merah
+Tumpat
+Lojing
+
+DISTRICT IN KEDAH
+Baling
+Bandar Baharu
+Kota Setar
+Kuala Muda
+Kubang Pasu
+Kulim
+Langkawi
+Padang Terap
+Pendang
+Pokok Sena
+Sik
+Yan
+
+DISTRICT IN NEGERI SEMBILAN
+Jelebu
+Jempol
+Kuala Pilah
+Port Dickson
+Rembau
+Seremban
+Tampin
+
+DISTRICT IN PAHANG
+Bentong
+Bera
+Cameron Highlands
+Jerantut
+Kuantan
+Lipis
+Maran
+Pekan
+Raub
+Rompin
+Temerloh
+
+DISTRICT IN PULAU PINANG
+Timur Laut
+Barat Daya
+Seberang Perai Utara
+Seberang Perai Tengah
+Seberang Perai Selatan
+
+DISTRICT IN PERAK
+Batang Padang
+Hilir Perak
+Hulu Perak
+Kampar
+Kerian
+Kinta
+Kuala Kangsar
+Larut, Matang dan Selama
+Manjung
+Muallim
+Perak Tengah
+Bagan Datuk
+
+DISTRICT IN SELANGOR
+Gombak
+Hulu Langat
+Hulu Selangor
+Klang
+Kuala Langat
+Kuala Selangor
+Petaling
+Sabak Bernam
+Sepang
+
+DISTRICT IN TERENGGANU
+ Besut
+ Dungun
+ Hulu Terengganu
+ Kemaman
+ Kuala Terengganu
+ Marang
+ Setiu
+ Kuala Nerus[6]
+
+DISTRICT IN SABAH
+ Bahagian Kudat
+Kota Marudu
+Kudat
+Pitas
+Kota Kinabalu Bahagian Pantai Barat
+Kota Belud
+Kota Kinabalu
+Papar
+Penampang
+Putatan
+Ranau
+Tuaran
+ Bahagian Pedalaman
+Beaufort
+Keningau
+Kuala Penyu
+Nabawan
+Sipitang
+Tambunan
+Tenom
+ Bahagian Sandakan
+Beluran
+Kinabatangan
+Sandakan
+Telupid
+Tongod
+ Bahagian Tawau
+Kalabakan
+Kunak
+Lahad Datu
+Semporna
+Tawau
+
+DISTRICT IN SARAWAK
+ Bahagian Betong
+Betong
+Saratok
+Kabong
+Pusa
+ Bahagian Bintulu
+Bintulu
+Tatau
+ Bahagian Kapit
+Belaga
+Kapit
+Song
+ Bahagian Kuching
+Bau
+Kuching
+Lundu
+ Bahagian Limbang
+Lawas
+Limbang
+ Bahagian Miri
+Marudi
+Miri
+Subis
+ Bahagian Mukah
+Dalat
+Daro
+Matu
+Mukah
+ Bahagian Samarahan
+Asajaya
+Samarahan
+Simunjan
+ Bahagian Sarikei
+Julau
+Meradong
+Sarikei
+Pakan
+ Bahagian Serian[8]
+Serian
+Tebedu
+ Bahagian Sibu
+Kanowit
+Selangau
+Sibu
+ Bahagian Sri Aman
+Lubok Antu
+Sri Aman

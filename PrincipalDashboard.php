@@ -30,7 +30,7 @@ $conn->close();
 <div class="row">
     <div class="col-md-3">
         <div class="card text-white bg-success mb-3">
-            <div class="card-header">Total Students</div>
+            <div class="card-header">Total Accepted Students</div>
             <div class="card-body">
                 <h5 class="card-title"><?php echo $totalStud; ?></h5>
             </div>
@@ -65,7 +65,7 @@ $conn->close();
 <div class="row">
     <div class="col-md-6">
         <div class="card mb-3">
-            <div class="card-header">Total Student by Month</div>
+            <div class="card-header">Total Student by Month of Birth</div>
             <div class="card-body">
                 <canvas id="myChart1"></canvas>
             </div>
@@ -73,7 +73,7 @@ $conn->close();
     </div>
     <div class="col-md-6">
         <div class="card mb-3">
-            <div class="card-header">Total Student by Gender</div>
+            <div class="card-header">Total Applicants by Gender</div>
             <div class="card-body">
                 <canvas id="myChart2"></canvas>
             </div>
@@ -123,13 +123,24 @@ $conn->close();
 
     // Total Student by Month Line Chart
     var studentCountsByMonth = <?php echo json_encode($studentCountsByMonth); ?>;
+
+    // Month labels
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // Prepare data for Chart.js
+    const chartData = months.map((month, index) => ({
+        x: month,
+        y: studentCountsByMonth[index + 1] || 0
+    }));
+
     var ctx1 = document.getElementById('myChart1').getContext('2d');
     var myChart1 = new Chart(ctx1, {
-        type: 'line',
+        type: 'bar',
         data: {
+            labels: months,
             datasets: [{
                 label: 'Total Students',
-                data: studentCountsByMonth,
+                data: chartData,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
@@ -139,6 +150,15 @@ $conn->close();
         },
         options: {
             scales: {
+                x: {
+                    type: 'category',
+                    labels: months,
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
+                },
                 y: {
                     beginAtZero: true,
                     ticks: {

@@ -6,7 +6,7 @@ include 'process/db.php';
 $studID = $_SESSION['studID'];
 
 // Prepare the SQL statement
-$sql = "SELECT * FROM student WHERE studID = ?";
+$sql = "select * FROM student WHERE studID = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $studID);
 $stmt->execute();
@@ -17,6 +17,10 @@ if ($result->num_rows > 0) {
         $name = $row['studName'];
         $ic = $row['studIC'];
         $email = $row['studEmail'];
+        $gender = $row['studGender'];
+        $state = $row['studState'];
+        $district = $row['studDistrict'];
+        $poscode = $row['studPoscode'];
         $address = $row['studAddress'];
         $phone = $row['studPhone'];
         $DOB = $row['studDOB'];
@@ -60,9 +64,13 @@ $conn->close();
                             <div class="card-body student-info">
                                 <p><strong>Name:</strong> <?php echo $name; ?></p>
                                 <p><strong>Matric Number:</strong> <?php echo $studID; ?></p>
+                                <p><strong>Gender:</strong> <?php echo $gender; ?></p>
                                 <p><strong>Date of Birth:</strong> <?php echo $DOB; ?></p>
                                 <p><strong>Race:</strong> <?php echo $race; ?></p>
                                 <p><strong>Phone Number:</strong> <?php echo $phone; ?></p>
+                                <p><strong>State:</strong> <?php echo $state; ?></p>
+                                <p><strong>District:</strong> <?php echo $district; ?></p>
+                                <p><strong>Poscode:</strong> <?php echo $poscode; ?></p>
                                 <p><strong>Address:</strong> <?php echo $address; ?></p>
                                 <p><strong>Email:</strong> <?php echo $email; ?></p>
                                 <p><strong>Gender:</strong> <?php echo $gender; ?></p>
