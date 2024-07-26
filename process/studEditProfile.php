@@ -5,14 +5,18 @@ include "db.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studID = $_POST['studID'];
     $studName = $_POST['studName'];
+    $studGender = $_POST['studGender'];  // Add address
     $studDOB = $_POST['studDOB'];
     $studPhone = $_POST['studPhone'];
     $studRace = $_POST['studRace'];  // Add race
-    $studAddress = $_POST['studAddress'];  // Add address
+    $studState = $_POST['studState'];
+    $studDistrict = $_POST['studDistrict'];
+    $studPoscode = $_POST['studPoscode'];
+    $studAddress = $_POST['studAddress'];
 
-    $sql = "UPDATE student SET studName=?, studDOB=?, studPhone=?, studRace=?, studAddress=? WHERE studID=?";
+    $sql = "update student SET studName=?,studGender=?, studDOB=?, studPhone=?, studRace=?, studState=?, studDistrict=?, studPoscode=?,studAddress=? WHERE studID=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $studName, $studDOB, $studPhone, $studRace, $studAddress, $studID);
+    $stmt->bind_param("sssssssisi", $studName, $studGender, $studDOB, $studPhone, $studRace, $studState, $studDistrict, $studPoscode, $studAddress, $studID);
 
     if ($stmt->execute() === TRUE) {
         $_SESSION['message'] = "Profile updated successfully";
@@ -27,4 +31,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ../studentProfile.php');
     exit();
 }
-?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 26, 2024 at 02:33 PM
+-- Generation Time: Jul 26, 2024 at 02:58 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -99,7 +99,7 @@ CREATE TABLE `student` (
   `studPhone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `studState` varchar(50) DEFAULT NULL,
   `studDistrict` varchar(50) DEFAULT NULL,
-  `studPoscode` varchar(100) DEFAULT NULL,
+  `studPoscode` int DEFAULT NULL,
   `studAddress` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `studRace` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `studEmail` varchar(30) DEFAULT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`studID`, `studName`, `studIC`, `studGender`, `studDOB`, `studPhone`, `studState`, `studDistrict`, `studPoscode`, `studAddress`, `studRace`, `studEmail`, `studPassword`) VALUES
-(2022495412, 'Iqmal', '030923090345', 'M', '2003-09-23', '0195673421', 'KELANTAN', 'TUMPAT', '16200', 'UiTMKT', 'MELAYU', '20225@imtiaz.edu.my', 'stud1');
+(2022495412, 'Iqmal', '030923090345', 'M', '2003-09-23', '0195673421', 'KELANTAN', 'TUMPAT', 16200, 'UiTMKT', 'MELAYU', '20225@imtiaz.edu.my', 'stud1');
 
 --
 -- Indexes for dumped tables
