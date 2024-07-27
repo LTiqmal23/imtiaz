@@ -4,6 +4,21 @@ $title = "Homepage"; ?>
 session_start();
 $studID = isset($_SESSION['studID']) ? $_SESSION['studID'] : 'Not Set';
 $studName = isset($_SESSION['studName']) ? $_SESSION['studName'] : 'Not Set';
+
+include 'process/db.php';
+// Total Registration
+$sql = "SELECT registerDesc FROM register";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$res = $stmt->get_result();
+
+$rejectMessage = "";
+
+if ($res->num_rows > 0) {
+    while ($row = $res->fetch_assoc()) {
+        $rejectMessage = $row['registerDesc'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,6 +86,9 @@ $studName = isset($_SESSION['studName']) ? $_SESSION['studName'] : 'Not Set';
                             <div class="card-body">
                                 <h4>Your Request is rejected.</h4>
                                 <p>Please send new registration request.</p>
+                                <br>
+                                <h4>Reason of rejection of you application.</h4>
+                                <p><?php echo $rejectMessage ?></p>
                                 <div id="liveAlertPlaceholder"></div>
                             </div>
                         </div>
