@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 26, 2024 at 02:58 PM
+-- Generation Time: Jul 27, 2024 at 02:53 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -73,6 +73,7 @@ CREATE TABLE `register` (
   `registerID` int NOT NULL,
   `registerDate` date DEFAULT NULL,
   `registerStatus` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'PENDING',
+  `registerDesc` varchar(50) DEFAULT NULL,
   `studID` int DEFAULT NULL,
   `clerkID` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -81,8 +82,9 @@ CREATE TABLE `register` (
 -- Dumping data for table `register`
 --
 
-INSERT INTO `register` (`registerID`, `registerDate`, `registerStatus`, `studID`, `clerkID`) VALUES
-(300200, '2024-06-01', 'ACCEPTED', 2022495412, 601725);
+INSERT INTO `register` (`registerID`, `registerDate`, `registerStatus`, `registerDesc`, `studID`, `clerkID`) VALUES
+(300200, '2024-06-01', 'ACCEPTED', NULL, 2022495412, 601725),
+(300214, '2024-07-27', 'PENDING', '', 2022495672, 601725);
 
 -- --------------------------------------------------------
 
@@ -111,7 +113,8 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`studID`, `studName`, `studIC`, `studGender`, `studDOB`, `studPhone`, `studState`, `studDistrict`, `studPoscode`, `studAddress`, `studRace`, `studEmail`, `studPassword`) VALUES
-(2022495412, 'Iqmal', '030923090345', 'M', '2003-09-23', '0195673421', 'KELANTAN', 'TUMPAT', 16200, 'UiTMKT', 'MELAYU', '20225@imtiaz.edu.my', 'stud1');
+(2022495412, 'Iqmal', '030923090345', 'M', '2003-09-23', '0195673421', 'Wilayah Persekutuan Kuala Lumpur', 'N/A', 16200, 'UITMKT', 'MELAYU', '20225@imtiaz.edu.my', 'stud1'),
+(2022495672, 'zambri', '030415034557', 'M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '20226@imtiaz.edu.my', '123');
 
 --
 -- Indexes for dumped tables
@@ -166,13 +169,13 @@ ALTER TABLE `principal`
 -- AUTO_INCREMENT for table `register`
 --
 ALTER TABLE `register`
-  MODIFY `registerID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300214;
+  MODIFY `registerID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300215;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `studID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2022495672;
+  MODIFY `studID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2022495673;
 
 --
 -- Constraints for dumped tables

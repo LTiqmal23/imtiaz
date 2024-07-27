@@ -2,21 +2,29 @@
 <html lang="en">
 <?php
 session_start();
-$ID = $_GET['rejectID'];
-$clerkID = $_SESSION['clerkID'];
 
-if (isset($_GET['rejectID'])) {
+if (isset($_POST['rejectID'])) {
+    $ID = $_POST['rejectID'];
+    $clerkID = $_SESSION['clerkID'];
+    $rejectMessage = $_POST['rejectMessage'];
+
     include 'db.php';
 
     try {
         // Begin a transaction
         $conn->begin_transaction();
 
-        // Update the ACCEPT table
-        $sql = "update REGISTER SET registerStatus = 'REJECTED', clerkID = ? WHERE registerID = ?";
+        // Update the REGISTER table
+        $sql = "UPDATE REGISTER SET registerStatus = 'REJECTED', registerDesc = ?, clerkID = ? WHERE registerID = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $clerkID, $ID);
-        $stmt->execute();
+        if ($stmt === false) {
+            throw new Exception("Prepare statement failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("sii", $rejectMessage, $clerkID, $ID);
+        if ($stmt->execute() === false) {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
 
         // Commit the transaction
         $conn->commit();
@@ -38,9 +46,9 @@ if (isset($_GET['rejectID'])) {
         if (isset($stmt)) $stmt->close();
         $conn->close();
 
-        // Redirect with error message
+        // Output error message
         echo "<script>
-            alert('Failed to reject application');
+            alert('Failed to reject application: " . addslashes($e->getMessage()) . "');
             window.history.back();
         </script>";
     }
@@ -50,7 +58,7 @@ if (isset($_GET['rejectID'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accept</title>
+    <title>Reject</title>
 </head>
 
 <body>

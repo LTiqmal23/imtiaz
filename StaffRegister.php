@@ -11,6 +11,9 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message']);
     unset($_SESSION['message_type']);
 }
+$rejectMessage1 = "Incorrect personal or student information!";
+$rejectMessage2 = "Using other's personal information!";
+$rejectMessage3 = "Other";
 ?>
 
 <div class="row">
@@ -69,8 +72,8 @@ if (isset($_SESSION['message'])) {
                                 echo "<td>";
                                 echo "<a href='#' class='view' data-id='" . $row["registerID"] . "' data-name='" . $row["studName"] . "' data-date='" . $row["registerDate"] . "' data-studID='" . $row["studID"] . "'><i class='fas fa-eye'></i></a> ";
                                 if ($row["registerStatus"] == 'PENDING') {
-                                    echo "<a href='process/registerAccept.php?acceptID=" . $row["registerID"] . "' class='btn btn-primary'>Accept</a> ";
-                                    echo "<a href='process/registerReject.php?rejectID=" . $row["registerID"] . "' class='btn btn-danger'>Reject</a>";
+                                    echo "<a href='#' class='reject' data-id='" . $row["registerID"] . "' data-name='" . $row["studName"] . "' data-date='" . $row["registerDate"] . "' data-studID='" . $row["studID"] . "' data-bs-toggle='modal' data-bs-target='#rejectModal'><i class='fas fa-times'></i></a> ";
+                                    echo "<a href='process/registerAccept.php?acceptID=" . $row["registerID"] . "'><i class='fas fa-check'></i></a> ";
                                 }
                                 echo "</td>";
                                 echo "</tr>";
@@ -86,6 +89,44 @@ if (isset($_SESSION['message'])) {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center" id="pagination"></ul>
                 </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">Reject Application of Registration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="process/registerReject.php" method="POST">
+                    <p><strong>Register ID:</strong> <span id="modal-rejectID-display"></span></p>
+                    <p><strong>Register Date:</strong> <span id="modal-rejectDate"></span></p>
+                    <p><strong>Student ID:</strong> <span id="modal-rejectStudID"></span></p>
+                    <p><strong>Student Name:</strong> <span id="modal-rejectStudName"></span></p>
+
+                    <div class="mb-3">
+                        <label for="rejectMessage" class="form-label">Reject Message</label>
+                        <select class="form-control" id="rejectMessage" name="rejectMessage" required>
+                            <option value="">Select a message</option>
+                            <option value="<?php echo $rejectMessage1 ?>"><?php echo $rejectMessage1 ?></option>
+                            <option value="<?php echo $rejectMessage2 ?>"><?php echo $rejectMessage2 ?></option>
+                            <option value="<?php echo $rejectMessage3 ?>"><?php echo $rejectMessage3 ?></option>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="rejectID" id="modal-rejectID">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -217,6 +258,34 @@ if (isset($_SESSION['message'])) {
                 const modal = new bootstrap.Modal(document.getElementById('viewModal'));
                 modal.show();
             });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var rejectModal = document.getElementById('rejectModal');
+
+        rejectModal.addEventListener('show.bs.modal', function(event) {
+            // Button that triggered the modal
+            var button = event.relatedTarget;
+
+            // Extract info from data-* attributes
+            var rejectID = button.getAttribute('data-id');
+            var rejectDate = button.getAttribute('data-date');
+            var studentID = button.getAttribute('data-studid');
+            var studentName = button.getAttribute('data-studname');
+
+            // Update the modal's content
+            var modalRejectIDDisplay = document.getElementById('modal-rejectID-display');
+            var modalRejectDate = document.getElementById('modal-rejectDate');
+            var modalRejectStudID = document.getElementById('modal-rejectStudID');
+            var modalRejectStudName = document.getElementById('modal-rejectStudName');
+            var modalRejectID = document.getElementById('modal-rejectID');
+
+            modalRejectIDDisplay.textContent = rejectID;
+            modalRejectDate.textContent = rejectDate;
+            modalRejectStudID.textContent = studentID;
+            modalRejectStudName.textContent = studentName;
+            modalRejectID.value = rejectID;
         });
     });
 </script>
