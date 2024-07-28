@@ -11,32 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studRace = $_POST['studRace'];
     $studEmail = $_POST['studEmail'];
     $studPassword = $_POST['studPassword'];
-    $stuGender = $_POST['stuGender'];
-    $stuAge = $_POST['stuAge'];
+    $studGender = $_POST['studGender'];
+    $studAge = $_POST['studAge'];
     $studPostcode = $_POST['studPostcode'];
-    $studCity = $_POST['studCity'];
+    $studState = $_POST['studState'];
+    $studDistrict = $_POST['studDistrict'];
     $studAddress = $_POST['studAddress'];
     $studParentName = $_POST['studParentName'];
     $studParentNo = $_POST['studParentNo'];
 
-    $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, stuGender=?, stuAge=?, studPostcode=?, studCity=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
     if (!empty($studPassword)) {
-        $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, studPassword=?, stuGender=?, stuAge=?, studPostcode=?, studCity=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
-    }
-
-    $stmt = $conn->prepare($sql);
-
-    if (!empty($studPassword)) {
-        $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $studPassword, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
+        $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, studPassword=?, studGender=?, studAge=?, studPostcode=?, studState=?, studDistrict=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $studPassword, $studGender, $studAge, $studPostcode, $studState, $studDistrict, $studAddress, $studParentName, $studParentNo, $studID);
     } else {
-        $stmt->bind_param("sssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
+        $sql = "UPDATE student SET studName=?, studIC=?, studDOB=?, studPhone=?, studRace=?, studEmail=?, studGender=?, studAge=?, studPostcode=?, studState=?, studDistrict=?, studAddress=?, studParentName=?, studParentNo=? WHERE studID=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $studGender, $studAge, $studPostcode, $studState, $studDistrict, $studAddress, $studParentName, $studParentNo, $studID);
     }
 
-    if ($stmt->execute() === TRUE) {
+    if ($stmt->execute()) {
         $_SESSION['message'] = "Profile updated successfully";
         $_SESSION['message_type'] = "success";
     } else {
-        $_SESSION['message'] = "Error: " . $conn->error;
+        error_log("Error executing statement: " . $stmt->error);
+        $_SESSION['message'] = "Error executing statement.";
         $_SESSION['message_type'] = "danger";
     }
 

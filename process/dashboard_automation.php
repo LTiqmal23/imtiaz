@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 include 'db.php';
 // Check if the connection is set and not null
@@ -6,107 +5,89 @@ if (!isset($conn) || $conn === null) {
     die("Database connection not established.");
 }
 
-// Total Student
-$sqlStud = "select COUNT(*) as total FROM student s 
-JOIN register r ON s.studID = r.studID where r.registerStatus = 'ACCEPTED'";
+// Total Accepted Students
+$sqlStud = "SELECT COUNT(*) as total FROM student s 
+JOIN register r ON s.studID = r.studID WHERE r.registerStatus = 'ACCEPTED'";
 $stmtStud = $conn->prepare($sqlStud);
 $stmtStud->execute();
 $resStud = $stmtStud->get_result();
-
-$totalStud = 0; // Initialize total variable
-
-if ($resStud->num_rows > 0) {
-    while ($row = $resStud->fetch_assoc()) {
-        $totalStud = $row['total'];
-    }
-}
+$totalStud = $resStud->fetch_assoc()['total'];
 
 // Total Registration
 $sqlReg = "SELECT COUNT(*) as total FROM register";
 $stmtReg = $conn->prepare($sqlReg);
 $stmtReg->execute();
 $resReg = $stmtReg->get_result();
-
-$totalReg = 0; // Initialize total variable
-
-if ($resReg->num_rows > 0) {
-    while ($row = $resReg->fetch_assoc()) {
-        $totalReg = $row['total'];
-    }
-}
+$totalReg = $resReg->fetch_assoc()['total'];
 
 // Total Clerk
 $sqlClerk = "SELECT COUNT(*) as total FROM clerk";
 $stmtClerk = $conn->prepare($sqlClerk);
 $stmtClerk->execute();
-$regClerk = $stmtClerk->get_result();
+$resClerk = $stmtClerk->get_result();
+$totalClerk = $resClerk->fetch_assoc()['total'];
 
-$totalClerk = 0; // Initialize total variable
-
-if ($regClerk->num_rows > 0) {
-    while ($row = $regClerk->fetch_assoc()) {
-        $totalClerk = $row['total'];
-    }
-}
-
-// Total Rejected 
-$sqlReject = "select COUNT(registerID) as total FROM register where registerStatus = 'REJECTED'";
+// Total Rejected
+$sqlReject = "SELECT COUNT(registerID) as total FROM register WHERE registerStatus = 'REJECTED'";
 $stmtReject = $conn->prepare($sqlReject);
 $stmtReject->execute();
-$regReject = $stmtReject->get_result();
+$resReject = $stmtReject->get_result();
+$totalReject = $resReject->fetch_assoc()['total'];
 
-$totalReject = 0; // Initialize total variable
-
-if ($regReject->num_rows > 0) {
-    while ($row = $regReject->fetch_assoc()) {
-        $totalReject = $row['total'];
-    }
-}
-
-// Fetch male and female student counts based on studIC
-$sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE studGender ='M'";
+// Gender Distribution
+$sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE studGender = 'M'";
 $stmtMale = $conn->prepare($sqlMale);
 $stmtMale->execute();
 $resMale = $stmtMale->get_result();
 $maleCount = $resMale->fetch_assoc()['maleCount'];
 
-$sqlFemale = "SELECT COUNT(*) as femaleCount FROM student WHERE studGender ='F'";
+$sqlFemale = "SELECT COUNT(*) as femaleCount FROM student WHERE studGender = 'F'";
 $stmtFemale = $conn->prepare($sqlFemale);
 $stmtFemale->execute();
 $resFemale = $stmtFemale->get_result();
 $femaleCount = $resFemale->fetch_assoc()['femaleCount'];
 
-$stmtMale->close();
-$stmtFemale->close();
+// Fetch latest 5 registrations
+$sqlLatestReg = "
+    SELECT r.studID, r.registerStatus 
+    FROM register r 
+    ORDER BY r.registerDate DESC 
+    LIMIT 5";
+$resLatestReg = $conn->query($sqlLatestReg);
+$latestRegistrations = $resLatestReg->fetch_all(MYSQLI_ASSOC);
 
 // Fetching student counts by state
-$totalStudentByState = array();
+$sqlState = "
+    SELECT COUNT(r.studID) as totalStd, s.studState 
+    FROM register r 
+    JOIN student s ON r.studID = s.studID  
+    WHERE r.registerStatus = 'ACCEPTED' 
+    GROUP BY s.studState";
+$resState = $conn->query($sqlState);
+$totalStudentByState = $resState->fetch_all(MYSQLI_ASSOC);
 
-$sql = "
-    SELECT COUNT(R.studID) as totalStd, S.studState 
-    FROM register R join Student S
-    ON R.studID = S.studID  
-    WHERE registerStatus = 'ACCEPTED' 
-    GROUP BY studState
-";
-$result = $conn->query($sql);
+// Age Distribution
+$sqlAge = "
+    SELECT studAge as age, COUNT(*) as count 
+    FROM student 
+    WHERE studAge BETWEEN 13 AND 18 
+    GROUP BY studAge";
+$resAge = $conn->query($sqlAge);
+$ageDistribution = $resAge->fetch_all(MYSQLI_ASSOC);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $totalStudentByState[] = array('state' => $row['studState'], 'total' => $row['totalStd']);
-    }
-}
+// Race Distribution
+$sqlRace = "
+    SELECT studRace as race, COUNT(*) as count 
+    FROM student 
+    GROUP BY studRace";
+$resRace = $conn->query($sqlRace);
+$raceDistribution = $resRace->fetch_all(MYSQLI_ASSOC);
+
+$stmtStud->close();
+$stmtReg->close();
+$stmtClerk->close();
+$stmtReject->close();
+$stmtMale->close();
+$stmtFemale->close();
+$conn->close();
 ?>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph</title>
-</head>
-
-<body>
-
-</body>
-
-</html>
