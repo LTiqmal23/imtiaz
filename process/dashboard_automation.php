@@ -76,12 +76,14 @@ $resAge = $conn->query($sqlAge);
 $ageDistribution = $resAge->fetch_all(MYSQLI_ASSOC);
 
 // Race Distribution
+// Race Distribution
 $sqlRace = "
-    SELECT studRace as race, COUNT(*) as count 
+    SELECT COALESCE(studRace, 'Not Specified') as race, COUNT(*) as count 
     FROM student 
-    GROUP BY studRace";
+    GROUP BY race";
 $resRace = $conn->query($sqlRace);
 $raceDistribution = $resRace->fetch_all(MYSQLI_ASSOC);
+
 
 $stmtStud->close();
 $stmtReg->close();
