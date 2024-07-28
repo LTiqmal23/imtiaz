@@ -32,6 +32,16 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 $conn->close();
+
+
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-' . $_SESSION['message_type'] . ' alert-dismissible fade show" role="alert">'
+         . $_SESSION['message'] .
+         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+}
 ?>
 
 <div class="row">
@@ -65,7 +75,7 @@ $conn->close();
                                 <p><strong>Phone Number:</strong> <?php echo $phone; ?></p>
                                 <p><strong>Address:</strong> <?php echo $address; ?></p>
                                 <p><strong>Email:</strong> <?php echo $email; ?></p>
-                                <p><strong>Gender:</strong> <?php echo $gender; ?></p>
+                                <p><strong>Gender:</strong> <?php echo $gender == 'M' ? 'Male' : 'Female'; ?></p>
                                 <p><strong>Age:</strong> <?php echo $age; ?></p>
                                 <p><strong>Postcode:</strong> <?php echo $postcode; ?></p>
                                 <p><strong>City:</strong> <?php echo $city; ?></p>
@@ -266,7 +276,7 @@ $conn->close();
         }).then(response => response.text())
           .then(data => {
               console.log(data);
-              window.location.href = '../studentProfile.php';
+              window.location.href = 'studentProfile.php';
           }).catch(error => console.error('Error:', error));
     });
 

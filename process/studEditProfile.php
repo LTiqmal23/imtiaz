@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
 
     if (!empty($studPassword)) {
-        
-        $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $hashedPassword, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
+        $stmt->bind_param("ssssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $studPassword, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
     } else {
         $stmt->bind_param("sssssssssssssi", $studName, $studIC, $studDOB, $studPhone, $studRace, $studEmail, $stuGender, $stuAge, $studPostcode, $studCity, $studAddress, $studParentName, $studParentNo, $studID);
     }
@@ -43,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->close();
     $conn->close();
-    header('Location: ../StudentProfile.php');
+    header('Location: ../studentProfile.php');
     exit();
 }
+?>
