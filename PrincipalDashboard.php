@@ -121,49 +121,35 @@ $conn->close();
         }
     });
 
-    // Total Student by Month Line Chart
-    var studentCountsByMonth = <?php echo json_encode($studentCountsByMonth); ?>;
+    // Data passed from PHP
+    var totalStudentByState = <?php echo json_encode($totalStudentByState); ?>;
 
-    // Month labels
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // Prepare data for the chart
+    var states = totalStudentByState.map(function(item) {
+        return item.state;
+    });
+    var totalStudents = totalStudentByState.map(function(item) {
+        return item.total;
+    });
 
-    // Prepare data for Chart.js
-    const chartData = months.map((month, index) => ({
-        x: month,
-        y: studentCountsByMonth[index + 1] || 0
-    }));
-
-    var ctx1 = document.getElementById('myChart1').getContext('2d');
-    var myChart1 = new Chart(ctx1, {
+    // Generate the chart
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: months,
+            labels: states,
             datasets: [{
                 label: 'Total Students',
-                data: chartData,
+                data: totalStudents,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: true,
-                tension: 0.3
+                borderWidth: 1
             }]
         },
         options: {
             scales: {
-                x: {
-                    type: 'category',
-                    labels: months,
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 0,
-                        minRotation: 0
-                    }
-                },
                 y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 10 // Adjust the step size as needed
-                    }
+                    beginAtZero: true
                 }
             }
         }

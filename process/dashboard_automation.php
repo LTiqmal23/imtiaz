@@ -64,13 +64,13 @@ if ($regReject->num_rows > 0) {
 }
 
 // Fetch male and female student counts based on studIC
-$sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE MOD(CAST(RIGHT(studIC, 1) AS UNSIGNED), 2) = 1";
+$sqlMale = "SELECT COUNT(*) as maleCount FROM student WHERE studGender ='M'";
 $stmtMale = $conn->prepare($sqlMale);
 $stmtMale->execute();
 $resMale = $stmtMale->get_result();
 $maleCount = $resMale->fetch_assoc()['maleCount'];
 
-$sqlFemale = "SELECT COUNT(*) as femaleCount FROM student WHERE MOD(CAST(RIGHT(studIC, 1) AS UNSIGNED), 2) = 0";
+$sqlFemale = "SELECT COUNT(*) as femaleCount FROM student WHERE studGender ='F'";
 $stmtFemale = $conn->prepare($sqlFemale);
 $stmtFemale->execute();
 $resFemale = $stmtFemale->get_result();
@@ -79,23 +79,21 @@ $femaleCount = $resFemale->fetch_assoc()['femaleCount'];
 $stmtMale->close();
 $stmtFemale->close();
 
-// Fetching student counts by month
-$studentCountsByMonth = array_fill(0, 12, 0); // Initialize array with 12 zeros
+// Fetching student counts by state
+$totalStudentByState = array();
 
 $sql = "
-    SELECT 
-        MONTH(studDOB) AS month, 
-        COUNT(*) AS student_count 
-    FROM 
-        student 
-    GROUP BY 
-        MONTH(studDOB)
+    SELECT COUNT(R.studID) as totalStd, S.studState 
+    FROM register R join Student S
+    ON R.studID = S.studID  
+    WHERE registerStatus = 'ACCEPTED' 
+    GROUP BY studState
 ";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $studentCountsByMonth[$row['month'] - 1] = $row['student_count']; // month is 1-12, array index is 0-11
+        $totalStudentByState[] = array('state' => $row['studState'], 'total' => $row['totalStd']);
     }
 }
 ?>
@@ -104,7 +102,7 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Graph</title>
 </head>
 
 <body>
