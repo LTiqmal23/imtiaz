@@ -62,21 +62,20 @@ $studName = isset($_SESSION['studName']) ? $_SESSION['studName'] : 'Not Set';
                         </button>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-3">
                             <div class="card-header">Homepage</div>
                             <div class="card-body">
-                                <h4>Your Request is still pending.</h4>
-                                <p>Please wait for your registration request to be approved by the administration.</p>
+                                <div class="alert alert-info" role="alert">
+                                    <h4 class="alert-heading">Your request is still pending.</h4>
+                                    <p>Please wait for your registration request to be approved by the administration.</p>
+                                </div>
                                 <div id="liveAlertPlaceholder"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
             </main>
             <script>

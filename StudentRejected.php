@@ -84,16 +84,22 @@ if ($res->num_rows > 0) {
                         <div class="card mb-3">
                             <div class="card-header">Homepage</div>
                             <div class="card-body">
-                                <h4>Your Request is rejected.</h4>
-                                <p>Please send new registration request.</p>
-                                <br>
-                                <h4>Reason of rejection of you application.</h4>
-                                <p><?php echo $rejectMessage ?></p>
+                                <div class="alert alert-danger" role="alert">
+                                    <h4 class="alert-heading">Your Request is Rejected.</h4>
+
+                                    <p>Reason of your registration rejection:</p>
+                                    <ul>
+                                        <li><?php echo $rejectMessage ?></li>
+                                    </ul>
+                                    <hr>
+                                    <p class="mb-0">Please send a new registration request.</p>
+                                </div>
                                 <div id="liveAlertPlaceholder"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
 
             </main>

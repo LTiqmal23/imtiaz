@@ -63,6 +63,7 @@ INSERT INTO `student` (`studID`, `studName`, `studIC`, `studGender`, `studDOB`, 
 (2022495688, 'Zarina', '080808160123', 'F', '2008-08-08', 15, '0121098765', 'Selangor', 'Petaling Jaya', 46000, 'No 234, Jalan VWX', 'MELAYU', 'Razak', '0182109876', '20242@imtiaz.edu.my', 'stud17'),
 (2022495689, 'Adib', '090909171234', 'M', '2009-09-09', 14, '0110987654', 'Johor', 'Batu Pahat', 83000, 'No 245, Jalan YZ', 'MELAYU', 'Amran', '0181098765', '20243@imtiaz.edu.my', 'stud18'),
 (2022495690, 'Siti', '100101182345', 'F', '2010-01-01', 14, '0109876543', 'Perak', 'Taiping', 34000, 'No 256, Jalan ABC', 'MELAYU', 'Azizah', '0180987654', '20244@imtiaz.edu.my', 'stud19'),
+(2022495692, 'Lee Bang', '100101182345', 'M', '2010-01-01', 14, null, null, null, null, null, null, 'Lee Bang Sat', '0180987654', '20251@imtiaz.edu.my', 'student'),
 (2022495691, 'Hafiza', '091002193456', 'F', '2009-10-02', 14, '0198765432', 'Penang', 'Butterworth', 12300, 'No 267, Jalan DEF', 'MELAYU', 'Rahima', '0179876543', '20245@imtiaz.edu.my', 'stud20');
 
 -- --------------------------------------------------------
@@ -154,6 +155,7 @@ INSERT INTO `register` (`registerID`, `registerDate`, `registerStatus`, `registe
 (300217, '2024-06-18', 'ACCEPTED', NULL, 2022495688, 601727),
 (300218, '2024-06-19', 'ACCEPTED', NULL, 2022495689, 601728),
 (300219, '2024-06-20', 'ACCEPTED', NULL, 2022495690, 601729),
-(300220, '2024-06-21', 'ACCEPTED', NULL, 2022495691, 601725);
+(300220, '2024-06-21', 'ACCEPTED', NULL, 2022495691, 601725),
+(300221, '2024-06-21', 'PENDING', NULL, 2022495692, 601725);
 
 COMMIT;

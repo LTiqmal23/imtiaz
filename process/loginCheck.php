@@ -9,20 +9,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = htmlspecialchars($_POST['password']);
 
     // Check credentials against student table
-    $sql = "SELECT * FROM student WHERE studEmail = ? AND studPassword = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql_student = "SELECT * FROM student WHERE studEmail = ? AND studPassword = ?";
+    $stmt_student = $conn->prepare($sql_student);
+    $stmt_student->bind_param("ss", $email, $password);
+    $stmt_student->execute();
+    $result_student = $stmt_student->get_result();
 
-    if ($result->num_rows > 0) {
+    if ($result_student->num_rows > 0) {
         // Student found, set session variables
-        $row = $result->fetch_assoc();
-        $_SESSION['studID'] = $row['studID'];
-        $_SESSION['studName'] = $row['studName'];
+        $row_student = $result_student->fetch_assoc();
+        $_SESSION['studID'] = $row_student['studID'];
+        $_SESSION['studName'] = $row_student['studName'];
 
         // Check if student has any pending or rejected registrations
-        $studID = $row['studID'];
+        $studID = $row_student['studID'];
         $sql_status = "SELECT registerStatus FROM REGISTER WHERE studID = ? ORDER BY registerDate DESC LIMIT 1";
         $stmt_status = $conn->prepare($sql_status);
         $stmt_status->bind_param("s", $studID);
@@ -44,48 +44,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // No registration record found, redirect to student home page
             header("Location: ../StudentPending.php");
         }
-    } else {
-        // Invalid credentials, redirect back to login page with error message
-        echo "<script>
-        alert('Invalid username or password');
-        window.location.href = '../MainLogin.html';
-    </script>";
+        exit();
     }
 
+    // Reset variables before checking clerk credentials
+    $stmt_student->close();
+    $result_student->close();
+
     // Check credentials against clerk table
-    $sql = "SELECT * FROM clerk WHERE clerkEmail = ? AND clerkPassword = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        // Clerk found, redirect to clerk home page
-        $row = $result->fetch_assoc();
-        $_SESSION['clerkID'] = $row['clerkID'];
-        $_SESSION['clerkName'] = $row['clerkName'];
+    $sql_clerk = "SELECT * FROM clerk WHERE clerkEmail = ? AND clerkPassword = ?";
+    $stmt_clerk = $conn->prepare($sql_clerk);
+    $stmt_clerk->bind_param("ss", $email, $password);
+    $stmt_clerk->execute();
+    $result_clerk = $stmt_clerk->get_result();
+
+    if ($result_clerk->num_rows > 0) {
+        // Clerk found, set session variables
+        $row_clerk = $result_clerk->fetch_assoc();
+        $_SESSION['clerkID'] = $row_clerk['clerkID'];
+        $_SESSION['clerkName'] = $row_clerk['clerkName'];
         header("Location: ../StaffDashboard.php");
         exit();
     }
 
+    // Reset variables before checking principal credentials
+    $stmt_clerk->close();
+    $result_clerk->close();
+
     // Check credentials against principal table
-    $sql = "SELECT * FROM principal WHERE principalEmail = ? AND principalPassword = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        // Principal found, redirect to principal home page
-        $row = $result->fetch_assoc();
-        $_SESSION['principalID'] = $row['principalID'];
-        $_SESSION['principalName'] = $row['principalName'];
+    $sql_principal = "SELECT * FROM principal WHERE principalEmail = ? AND principalPassword = ?";
+    $stmt_principal = $conn->prepare($sql_principal);
+    $stmt_principal->bind_param("ss", $email, $password);
+    $stmt_principal->execute();
+    $result_principal = $stmt_principal->get_result();
+
+    if ($result_principal->num_rows > 0) {
+        // Principal found, set session variables
+        $row_principal = $result_principal->fetch_assoc();
+        $_SESSION['principalID'] = $row_principal['principalID'];
+        $_SESSION['principalName'] = $row_principal['principalName'];
         header("Location: ../PrincipalDashboard.php");
         exit();
     }
 
-    // If no match found, show an error message
-    echo "Invalid username or password";
+    // If no match found in any table, show an error message
+    echo "<script>
+        alert('Invalid username or password');
+        window.location.href = '../MainLogin.html';
+    </script>";
 
-    $stmt->close();
+    $stmt_principal->close();
+    $result_principal->close();
     $conn->close();
 }
 ?>
