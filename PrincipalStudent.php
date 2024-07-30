@@ -279,15 +279,35 @@ if (isset($_SESSION['message'])) {
     function searchStudents() {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const rows = document.querySelectorAll('.table tbody tr');
+        let found = false; // Flag to track if any student is found
 
         rows.forEach(row => {
             const studentName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
             if (studentName.includes(input)) {
                 row.style.display = "";
+                found = true; // Set flag to true if a student is found
             } else {
                 row.style.display = "none";
             }
         });
+
+        // Display "No student found" if no students are found
+        const noStudentMessage = document.getElementById('noStudentMessage');
+        if (!found) {
+            if (!noStudentMessage) {
+                // Create the message element if it doesn't exist
+                const message = document.createElement('tr');
+                message.id = 'noStudentMessage';
+                message.innerHTML = '<td colspan="5">No student found</td>';
+                document.querySelector('.table tbody').appendChild(message);
+            } else {
+                // Ensure the message is visible
+                noStudentMessage.style.display = '';
+            }
+        } else if (noStudentMessage) {
+            // Hide the message if students are found
+            noStudentMessage.style.display = 'none';
+        }
     }
 
     function fetchStudentDetails(id, mode) {

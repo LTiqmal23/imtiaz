@@ -280,15 +280,35 @@ if (isset($_SESSION['message'])) {
     function searchClerks() {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const rows = document.querySelectorAll('.table tbody tr');
+        let found = false; // Flag to track if any clerk is found
 
         rows.forEach(row => {
             const clerkName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
             if (clerkName.includes(input)) {
                 row.style.display = "";
+                found = true; // Set flag to true if a clerk is found
             } else {
                 row.style.display = "none";
             }
         });
+
+        // Display "No clerk found" if no clerks are found
+        const noClerkMessage = document.getElementById('noClerkMessage');
+        if (!found) {
+            if (!noClerkMessage) {
+                // Create the message element if it doesn't exist
+                const message = document.createElement('tr');
+                message.id = 'noClerkMessage';
+                message.innerHTML = '<td colspan="4">No clerk found</td>';
+                document.querySelector('.table tbody').appendChild(message);
+            } else {
+                // Ensure the message is visible
+                noClerkMessage.style.display = '';
+            }
+        } else if (noClerkMessage) {
+            // Hide the message if clerks are found
+            noClerkMessage.style.display = 'none';
+        }
     }
 
     function fetchClerkDetails(id, mode) {
