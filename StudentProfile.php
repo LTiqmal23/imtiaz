@@ -36,8 +36,8 @@ $conn->close();
 
 if (isset($_SESSION['message'])) {
     echo '<div class="alert alert-' . $_SESSION['message_type'] . ' alert-dismissible fade show" role="alert">'
-         . $_SESSION['message'] .
-         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        . $_SESSION['message'] .
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
     unset($_SESSION['message']);
     unset($_SESSION['message_type']);
@@ -184,7 +184,7 @@ if (isset($_SESSION['message'])) {
                             <?php
                             $states = [
                                 "KELANTAN", "PAHANG", "TERENGGANU", "SELANGOR", "SABAH", "SARAWAK", "PERAK", "MELAKA",
-                                "KEDAH", "PERLIS", "NEGERI SEMBILAN", "JOHOR", "PULAU PINANG", 
+                                "KEDAH", "PERLIS", "NEGERI SEMBILAN", "JOHOR", "PULAU PINANG",
                                 "WILAYAH PERSEKUTUAN KUALA LUMPUR", "WILAYAH PERSEKUTUAN LABUAN"
                             ];
                             foreach ($states as $state) {
@@ -266,6 +266,67 @@ if (isset($_SESSION['message'])) {
         }
         document.getElementById('editAge').value = age;
     }
+
+    // Add event listener for form submission
+    document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+        const name = document.getElementById('editName').value;
+        const ic = document.getElementById('editIC').value;
+        const email = document.getElementById('editEmail').value;
+        const phone = document.getElementById('editPhone').value;
+        const parentName = document.getElementById('editParentName').value;
+        const parentNo = document.getElementById('editParentNo').value;
+        const postcode = document.getElementById('editPostcode').value;
+
+        // Validate name (no numbers allowed)
+        if (/\d/.test(name)) {
+            alert('Name should not contain numbers.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate IC number (numeric characters only, no special characters)
+        if (!/^\d+$/.test(ic)) {
+            alert('IC should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate email
+        if (email.trim() === '') {
+            alert('Please enter your email.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate phone number (numeric characters only, no special characters)
+        if (!/^\d+$/.test(phone)) {
+            alert('Phone number should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate parent name (no numbers allowed)
+        if (/\d/.test(parentName)) {
+            alert('Parent name should not contain numbers.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate parent phone number (numeric characters only, no special characters)
+        if (!/^\d+$/.test(parentNo)) {
+            alert('Parent phone number should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate postcode (numeric characters only, no special characters)
+        if (!/^\d+$/.test(postcode)) {
+            alert('Postcode should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+    });
 </script>
 </body>
+
 </html>
