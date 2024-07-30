@@ -74,9 +74,9 @@ if (isset($_SESSION['message'])) {
                                 <p><strong>Age:</strong> <?php echo $age; ?></p>
                                 <p><strong>Race:</strong> <?php echo $race; ?></p>
                                 <p><strong>Gender:</strong> <?php echo $gender == 'M' ? 'Male' : 'Female'; ?></p>
-                                <p><strong>Postcode:</strong> <?php echo $postcode; ?></p>
-                                <p><strong>City:</strong> <?php echo $state; ?></p>
+                                <p><strong>State:</strong> <?php echo $state; ?></p>
                                 <p><strong>District:</strong> <?php echo $district; ?></p>
+                                <p><strong>Postcode:</strong> <?php echo $postcode; ?></p>
                                 <p><strong>Address:</strong> <?php echo $address; ?></p>
                                 <p><strong>Phone Number:</strong> <?php echo $phone; ?></p>
                                 <p><strong>Parent Name:</strong> <?php echo $parentName; ?></p>
