@@ -84,7 +84,7 @@ if (isset($_SESSION['message'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="process/add_clerk.php" method="POST">
+                <form id="addClerkForm" action="process/add_clerk.php" method="POST">
                     <div class="mb-3">
                         <label for="clerkName" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="clerkName" name="clerkName" required>
@@ -130,7 +130,7 @@ if (isset($_SESSION['message'])) {
                         <label for="viewClerkPhone" class="form-label">Phone</label>
                         <input type="text" class="form-control" id="viewClerkPhone" disabled>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
@@ -146,7 +146,7 @@ if (isset($_SESSION['message'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="process/edit_clerk.php" method="POST">
+                <form id="editClerkForm" action="process/edit_clerk.php" method="POST">
                     <div class="mb-3">
                         <!-- <label for="editClerkID" class="form-label">Staff ID</label> -->
                         <input type="hidden" class="form-control" id="editClerkID" name="clerkID">
@@ -309,6 +309,62 @@ if (isset($_SESSION['message'])) {
             })
             .catch(error => console.error('Error:', error));
     }
+
+    // Add event listener for form submission
+    document.getElementById('addClerkForm').addEventListener('submit', function(event) {
+        const name = document.getElementById('clerkName').value;
+        const phone = document.getElementById('clerkPhone').value;
+        const email = document.getElementById('clerkEmail').value;
+        const password = document.getElementById('clerkPassword').value;
+
+        // Validate name (no numbers allowed)
+        if (/\d/.test(name)) {
+            alert('Full Name should not contain numbers.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate phone number (numeric characters only, no special characters)
+        if (!/^\d+$/.test(phone)) {
+            alert('Phone number should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate email
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            alert('Please enter a valid email address.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate password (minimum 6 characters)
+        if (password.length < 6) {
+            alert('Password should be at least 6 characters long.');
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    // Add event listener for form submission
+    document.getElementById('editClerkForm').addEventListener('submit', function(event) {
+        const name = document.getElementById('editClerkName').value;
+        const phone = document.getElementById('editClerkPhone').value;
+
+        // Validate name (no numbers allowed)
+        if (/\d/.test(name)) {
+            alert('Full Name should not contain numbers.');
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate phone number (numeric characters only, no special characters)
+        if (!/^\d+$/.test(phone)) {
+            alert('Phone number should contain numbers only and no special characters.');
+            event.preventDefault();
+            return false;
+        }
+    });
 </script>
 </body>
 
